@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LoginActivity">
+    tools:context=".Login_Activity">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -26,44 +26,19 @@
                 android:textStyle="bold" />
         </LinearLayout>
 
-        <LinearLayout
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
-            android:layout_height="350dp"
-            android:orientation="vertical">
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="10dp" />
+            android:layout_height="350dp" >
 
-            <EditText
-                android:id="@+id/editTextText"
-                android:layout_width="350dp"
-                android:layout_height="50dp"
-                android:layout_gravity="center"
-                android:background="@color/Purple"
-                android:ems="10"
-                android:hint="    Username"
-                android:inputType="text"
-                android:textColor="@color/Grey"
-                android:textColorHint="@color/Grey"
-                android:textSize="14sp" />
-
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="30dp" />
-
-            <EditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/editTextText2"
                 android:layout_width="350dp"
                 android:layout_height="50dp"
                 android:layout_gravity="center"
-                android:background="@color/Purple"
-                android:ems="10"
-                android:hint="    Password"
-                android:inputType="text"
-                android:textColor="@color/Grey"
-                android:textColorHint="@color/Grey"
-                android:textSize="14sp" />
-        </LinearLayout>
+                android:hint="Password" />
+
+        </com.google.android.material.textfield.TextInputLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -110,7 +85,7 @@
                     android:textSize="16sp"
                     android:textStyle="bold" />
             </LinearLayout>
-        </LinearLayout>
 
+        </LinearLayout>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

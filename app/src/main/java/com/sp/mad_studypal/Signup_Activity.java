@@ -7,6 +7,9 @@ import android.content.Intent;
 import android.view.View;
 import android.widget.TextView;
 
+import com.google.firebase.Firebase;
+import com.google.firebase.FirebaseApiNotAvailableException;
+
 public class Signup_Activity extends AppCompatActivity {
     private TextView button_switch_to_login;
 

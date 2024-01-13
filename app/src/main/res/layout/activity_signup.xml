@@ -8,7 +8,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical">
 
         <LinearLayout
@@ -47,7 +47,8 @@
                 android:inputType="text"
                 android:textColor="@color/white"
                 android:textColorHint="@color/Grey"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                android:paddingLeft="30px"/>
 
             <Space
                 android:layout_width="match_parent"
@@ -60,11 +61,12 @@
                 android:layout_gravity="center"
                 android:background="@color/Purple"
                 android:ems="10"
-                android:inputType="text"
                 android:hint="    Email"
+                android:inputType="text"
+                android:textColor="@color/white"
                 android:textColorHint="@color/Grey"
                 android:textSize="14sp"
-                android:textColor="@color/white"/>
+                android:paddingLeft="30px"/>
 
             <Space
                 android:layout_width="match_parent"
@@ -77,11 +79,12 @@
                 android:layout_gravity="center"
                 android:background="@color/Purple"
                 android:ems="10"
-                android:inputType="text"
                 android:hint="    Password"
+                android:inputType="text"
+                android:textColor="@color/white"
                 android:textColorHint="@color/Grey"
                 android:textSize="14sp"
-                android:textColor="@color/white"/>
+                android:paddingLeft="30px"/>
 
             <Space
                 android:layout_width="match_parent"
@@ -94,11 +97,12 @@
                 android:layout_gravity="center"
                 android:background="@color/Purple"
                 android:ems="10"
-                android:inputType="text"
                 android:hint="    Confirm Password"
+                android:inputType="text"
+                android:textColor="@color/white"
                 android:textColorHint="@color/Grey"
                 android:textSize="14sp"
-                android:textColor="@color/white"/>
+                android:paddingLeft="30px"/>
         </LinearLayout>
 
         <LinearLayout
@@ -118,7 +122,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <TextView
