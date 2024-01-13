@@ -12,118 +12,133 @@
         android:orientation="vertical">
 
 
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="70dp"
-            android:layout_gravity="center"
-            android:text="Sign Up"
-            android:textAlignment="center"
-            android:textColor="#000000"
-            android:textSize="34sp"
-            android:textStyle="bold" />
+            android:layout_height="50dp"
+            android:orientation="vertical">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/testInputLayout3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
-            android:layout_marginTop="30sp"
-            android:hint="Username"
-            app:startIconDrawable="@drawable/baseline_person_24"
-            tools:layout_editor_absoluteY="70dp"
-            app:helperText="Required*"
-            app:helperTextTextColor="@color/Red"
-            app:counterEnabled="true"
-            app:counterMaxLength="30"
-            app:endIconMode="clear_text"
-            app:endIconDrawable="@drawable/baseline_clear_24">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/editTextText1"
+            <TextView
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:inputType="text"
-                android:maxLength="30"/>
-        </com.google.android.material.textfield.TextInputLayout>
+                android:text="Sign Up"
+                android:textAlignment="center"
+                android:textColor="#000000"
+                android:textSize="34sp"
+                android:textStyle="bold" />
+        </LinearLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/testInputLayout5"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
-            android:layout_marginTop="30sp"
-            android:hint="Email"
-            app:startIconDrawable="@drawable/baseline_email_24"
-            tools:layout_editor_absoluteY="70dp"
-            app:helperText="Required*"
-            app:helperTextTextColor="@color/Red"
-            app:endIconMode="clear_text"
-            app:endIconDrawable="@drawable/baseline_clear_24">
+            android:layout_height="410dp"
+            android:orientation="vertical">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/editTextText6"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/id_signup_username_layout"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_gravity="center"
-                android:inputType="text"
-                android:maxLength="20"/>
-        </com.google.android.material.textfield.TextInputLayout>
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:hint="Username"
+                app:counterEnabled="false"
+                app:endIconDrawable="@drawable/baseline_clear_24"
+                app:endIconMode="clear_text"
+                app:helperText=" "
+                app:helperTextEnabled="true"
+                app:helperTextTextAppearance="@style/TextAppearance.AppCompat.Small"
+                app:helperTextTextColor="@color/Red"
+                app:startIconDrawable="@drawable/baseline_person_24"
+                tools:layout_editor_absoluteY="70dp">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/testInputLayout6"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
-            android:layout_marginTop="30sp"
-            android:hint="Password"
-            app:startIconDrawable="@drawable/baseline_lock_24"
-            tools:layout_editor_absoluteY="70dp"
-            app:helperText="Required*"
-            app:counterEnabled="true"
-            app:counterMaxLength="20"
-            app:helperTextTextColor="@color/Red"
-            app:endIconMode="password_toggle">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/id_signup_username"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:inputType="text"
+                    android:maxLength="30" />
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/editTextText7"
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/id_signup_email_layout"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_gravity="center"
-                android:inputType="textPassword"
-                android:maxLength="20"/>
-        </com.google.android.material.textfield.TextInputLayout>
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="30sp"
+                android:layout_marginRight="30dp"
+                android:hint="Email"
+                app:endIconDrawable="@drawable/baseline_clear_24"
+                app:endIconMode="clear_text"
+                app:helperText=" "
+                app:helperTextEnabled="true"
+                app:helperTextTextAppearance="@style/TextAppearance.AppCompat.Small"
+                app:helperTextTextColor="@color/Red"
+                app:startIconDrawable="@drawable/baseline_email_24"
+                tools:layout_editor_absoluteY="70dp">
 
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/id_signup_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:inputType="text"
+                    android:maxLength="20" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/testInputLayout7"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
-            android:layout_marginTop="30sp"
-            android:hint="Comfirm Password"
-            app:startIconDrawable="@drawable/baseline_lock_24"
-            tools:layout_editor_absoluteY="70dp"
-            app:helperText="Required*"
-            app:counterEnabled="true"
-            app:counterMaxLength="20"
-            app:helperTextTextColor="@color/Red"
-            app:endIconMode="password_toggle"
-            android:layout_marginBottom="30dp">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/editTextText8"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/id_signup_password_layout"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_gravity="center"
-                android:inputType="textPassword"
-                android:maxLength="20"/>
-        </com.google.android.material.textfield.TextInputLayout>
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="30sp"
+                android:layout_marginRight="30dp"
+                android:hint="Password"
+                app:counterEnabled="false"
+                app:endIconMode="password_toggle"
+                app:helperText=" "
+                app:helperTextEnabled="true"
+                app:helperTextTextAppearance="@style/TextAppearance.AppCompat.Small"
+                app:helperTextTextColor="@color/Red"
+                app:startIconDrawable="@drawable/baseline_lock_24"
+                tools:layout_editor_absoluteY="70dp">
 
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/id_signup_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:inputType="textPassword"
+                    android:maxLength="20" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/id_signup_cpassword_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="30sp"
+                android:layout_marginRight="30dp"
+                android:layout_marginBottom="30dp"
+                android:hint="Comfirm Password"
+                app:counterEnabled="false"
+                app:endIconMode="password_toggle"
+                app:helperText=" "
+                app:helperTextEnabled="true"
+                app:helperTextTextAppearance="@style/TextAppearance.AppCompat.Small"
+                app:helperTextTextColor="@color/Red"
+                app:startIconDrawable="@drawable/baseline_lock_24"
+                tools:layout_editor_absoluteY="70dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/id_signup_cpassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:inputType="textPassword"
+                    android:maxLength="20" />
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
 
 
         <LinearLayout

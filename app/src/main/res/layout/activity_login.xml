@@ -10,76 +10,91 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="70dp"
-            android:layout_gravity="center"
-            android:text="Log In"
-            android:textAlignment="center"
-            android:textColor="#000000"
-            android:textSize="34sp"
-            android:textStyle="bold" />
+            android:layout_height="50dp"
+            android:orientation="vertical">
 
-
-        <com.google.android.material.textfield.TextInputLayout
-
-            android:id="@+id/testInputLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
-            android:layout_marginTop="30sp"
-            android:hint="Username"
-            app:startIconDrawable="@drawable/baseline_person_24"
-            tools:layout_editor_absoluteY="70dp"
-            app:helperText="Required*"
-            app:helperTextTextColor="@color/Red"
-            app:counterEnabled="true"
-            app:counterMaxLength="30"
-            app:endIconMode="clear_text"
-            app:endIconDrawable="@drawable/baseline_clear_24">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/editTextText2"
+            <TextView
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="70dp"
                 android:layout_gravity="center"
-                android:maxLength="20"/>
-        </com.google.android.material.textfield.TextInputLayout>
+                android:text="Log In"
+                android:textAlignment="center"
+                android:textColor="#000000"
+                android:textSize="34sp"
+                android:textStyle="bold" />
+        </LinearLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/testInputLayout1"
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
-            android:layout_marginTop="30sp"
-            android:hint="Password"
-            app:startIconDrawable="@drawable/baseline_lock_24"
-            tools:layout_editor_absoluteY="70dp"
-            app:helperText="Required*"
-            app:helperTextTextColor="@color/Red"
-            app:counterEnabled="true"
-            app:counterMaxLength="20"
-            app:endIconMode="password_toggle">
+            android:layout_height="410dp"
+            android:orientation="vertical">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/editTextText3"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/id_login_username_layout"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_gravity="center"
-                android:inputType="textPassword"
-                android:maxLength="20"/>
-        </com.google.android.material.textfield.TextInputLayout>
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:hint="Username"
+                app:counterEnabled="false"
+                app:endIconDrawable="@drawable/baseline_clear_24"
+                app:endIconMode="clear_text"
+                app:errorEnabled="true"
+                app:helperText=" "
+                app:helperTextEnabled="true"
+                app:helperTextTextAppearance="@style/TextAppearance.AppCompat.Small"
+                app:helperTextTextColor="@color/Red"
+                app:startIconDrawable="@drawable/baseline_person_24"
+                tools:layout_editor_absoluteY="70dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/id_login_username"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:maxLength="20" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/id_login_password_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="30sp"
+                android:layout_marginRight="30dp"
+                android:hint="Password"
+                app:counterEnabled="false"
+                app:endIconMode="password_toggle"
+                app:errorEnabled="true"
+                app:helperText=" "
+                app:helperTextEnabled="true"
+                app:helperTextTextAppearance="@style/TextAppearance.AppCompat.Small"
+                app:helperTextTextColor="@color/Red"
+                app:startIconDrawable="@drawable/baseline_lock_24"
+                tools:layout_editor_absoluteY="70dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/id_login_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:inputType="textPassword"
+                    android:maxLength="20" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginTop="100dp">
+            android:orientation="vertical">
 
             <Button
-                android:id="@+id/button_signup_id"
+                android:id="@+id/button_login_id"
                 android:layout_width="350dp"
                 android:layout_height="60dp"
                 android:layout_gravity="center"
