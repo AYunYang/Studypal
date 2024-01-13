@@ -1,5 +1,6 @@
 package com.sp.mad_studypal;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
@@ -9,8 +10,14 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class Signup_Activity extends AppCompatActivity {
     private TextInputLayout signup_username_layout;
@@ -23,6 +30,11 @@ public class Signup_Activity extends AppCompatActivity {
     private TextInputEditText signup_password;
     private Button button_signup;
     private TextView button_switch_to_login;
+
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private static final String KEY_USERNAME = "username";
+    private static final String KEY_PASSWORD = "password";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +59,8 @@ public class Signup_Activity extends AppCompatActivity {
 
         button_switch_to_login = findViewById(R.id.button_switch4_id);
         button_switch_to_login.setOnClickListener(switch_login);
+
+
     }
 
     private View.OnClickListener switch_login = new View.OnClickListener() {     //Button, switch to login page
@@ -96,12 +110,32 @@ public class Signup_Activity extends AppCompatActivity {
                 return;
             }
 
-            else {
+            else {                                                                  //If all inputs are valid
                 signup_username_layout.setHelperText(" ");
                 signup_email_layout.setHelperText(" ");
                 signup_password_layout.setHelperText(" ");
                 signup_cpassword_layout.setHelperText(" ");
                 Toast.makeText(getApplicationContext(),"Good",Toast.LENGTH_SHORT).show();
+
+                Map<String,Object> note = new HashMap<>();
+                note.put(KEY_USERNAME, usernameStr);
+                note.put(KEY_PASSWORD, passwordStr);
+
+
+                db.collection("User_ID").document("User_1").set(note)
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Toast.makeText(getApplicationContext(),"Suucess",Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(getApplicationContext(),"Fail",Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
             }
 
 
