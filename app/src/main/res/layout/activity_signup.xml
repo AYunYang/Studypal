@@ -11,99 +11,120 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <LinearLayout
+
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="70dp"
-            android:orientation="vertical">
+            android:layout_gravity="center"
+            android:text="Sign Up"
+            android:textAlignment="center"
+            android:textColor="#000000"
+            android:textSize="34sp"
+            android:textStyle="bold" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="Sign Up"
-                android:textAlignment="center"
-                android:textColor="#000000"
-                android:textSize="34sp"
-                android:textStyle="bold" />
-        </LinearLayout>
-
-        <LinearLayout
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/testInputLayout3"
             android:layout_width="match_parent"
-            android:layout_height="350dp"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="30sp"
+            android:hint="Username"
+            app:startIconDrawable="@drawable/baseline_person_24"
+            tools:layout_editor_absoluteY="70dp"
+            app:helperText="Required*"
+            app:helperTextTextColor="@color/Red"
+            app:counterEnabled="true"
+            app:counterMaxLength="30"
+            app:endIconMode="clear_text"
+            app:endIconDrawable="@drawable/baseline_clear_24">
 
-            <Space
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editTextText1"
                 android:layout_width="match_parent"
-                android:layout_height="10dp" />
-
-            <EditText
-                android:id="@+id/editTextText"
-                android:layout_width="350dp"
                 android:layout_height="50dp"
                 android:layout_gravity="center"
-                android:background="@color/Purple"
-                android:ems="10"
-                android:hint="    Username"
                 android:inputType="text"
-                android:textColor="@color/white"
-                android:textColorHint="@color/Grey"
-                android:textSize="14sp"
-                android:paddingLeft="30px"/>
+                android:maxLength="30"/>
+        </com.google.android.material.textfield.TextInputLayout>
 
-            <Space
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/testInputLayout5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="30sp"
+            android:hint="Email"
+            app:startIconDrawable="@drawable/baseline_email_24"
+            tools:layout_editor_absoluteY="70dp"
+            app:helperText="Required*"
+            app:helperTextTextColor="@color/Red"
+            app:endIconMode="clear_text"
+            app:endIconDrawable="@drawable/baseline_clear_24">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editTextText6"
                 android:layout_width="match_parent"
-                android:layout_height="30dp" />
-
-            <EditText
-                android:id="@+id/editTextText2"
-                android:layout_width="350dp"
                 android:layout_height="50dp"
                 android:layout_gravity="center"
-                android:background="@color/Purple"
-                android:ems="10"
-                android:hint="    Email"
                 android:inputType="text"
-                android:textColor="@color/white"
-                android:textColorHint="@color/Grey"
-                android:textSize="14sp"
-                android:paddingLeft="30px"/>
+                android:maxLength="20"/>
+        </com.google.android.material.textfield.TextInputLayout>
 
-            <Space
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/testInputLayout6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="30sp"
+            android:hint="Password"
+            app:startIconDrawable="@drawable/baseline_lock_24"
+            tools:layout_editor_absoluteY="70dp"
+            app:helperText="Required*"
+            app:counterEnabled="true"
+            app:counterMaxLength="20"
+            app:helperTextTextColor="@color/Red"
+            app:endIconMode="password_toggle">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editTextText7"
                 android:layout_width="match_parent"
-                android:layout_height="30dp" />
-
-            <EditText
-                android:id="@+id/editTextText3"
-                android:layout_width="350dp"
                 android:layout_height="50dp"
                 android:layout_gravity="center"
-                android:background="@color/Purple"
-                android:ems="10"
-                android:hint="    Password"
-                android:inputType="text"
-                android:textColor="@color/white"
-                android:textColorHint="@color/Grey"
-                android:textSize="14sp"
-                android:paddingLeft="30px"/>
+                android:inputType="textPassword"
+                android:maxLength="20"/>
+        </com.google.android.material.textfield.TextInputLayout>
 
-            <Space
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/testInputLayout7"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="30sp"
+            android:hint="Comfirm Password"
+            app:startIconDrawable="@drawable/baseline_lock_24"
+            tools:layout_editor_absoluteY="70dp"
+            app:helperText="Required*"
+            app:counterEnabled="true"
+            app:counterMaxLength="20"
+            app:helperTextTextColor="@color/Red"
+            app:endIconMode="password_toggle"
+            android:layout_marginBottom="30dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editTextText8"
                 android:layout_width="match_parent"
-                android:layout_height="30dp" />
-
-            <EditText
-                android:id="@+id/editTextText4"
-                android:layout_width="350dp"
                 android:layout_height="50dp"
                 android:layout_gravity="center"
-                android:background="@color/Purple"
-                android:ems="10"
-                android:hint="    Confirm Password"
-                android:inputType="text"
-                android:textColor="@color/white"
-                android:textColorHint="@color/Grey"
-                android:textSize="14sp"
-                android:paddingLeft="30px"/>
-        </LinearLayout>
+                android:inputType="textPassword"
+                android:maxLength="20"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+
 
         <LinearLayout
             android:layout_width="match_parent"
