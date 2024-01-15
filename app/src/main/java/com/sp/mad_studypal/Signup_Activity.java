@@ -115,6 +115,13 @@ public class Signup_Activity extends AppCompatActivity {
                 signup_email_layout.setHelperText(" ");
                 signup_password_layout.setHelperText(" ");
                 signup_cpassword_layout.setHelperText(" ");
+
+                signup_username.setText("");
+                signup_email.setText("");
+                signup_password.setText("");
+                signup_cpassword.setText("");
+
+
                 Toast.makeText(getApplicationContext(),"Good",Toast.LENGTH_SHORT).show();
 
                 Map<String,Object> note = new HashMap<>();
@@ -126,7 +133,7 @@ public class Signup_Activity extends AppCompatActivity {
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
-                                Toast.makeText(getApplicationContext(),"Suucess",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(),"Success",Toast.LENGTH_SHORT).show();
                             }
                         })
                         .addOnFailureListener(new OnFailureListener() {
