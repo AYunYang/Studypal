@@ -14,6 +14,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
@@ -33,8 +34,9 @@ public class Signup_Activity extends AppCompatActivity {
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private static final String KEY_USERNAME = "username";
+    private static final String KEY_EMAIL = "email";
     private static final String KEY_PASSWORD = "password";
-
+    private CollectionReference user_coll_ref = db.collection("User_ID");    //Shortcut
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,8 +61,6 @@ public class Signup_Activity extends AppCompatActivity {
 
         button_switch_to_login = findViewById(R.id.button_switch4_id);
         button_switch_to_login.setOnClickListener(switch_login);
-
-
     }
 
     private View.OnClickListener switch_login = new View.OnClickListener() {     //Button, switch to login page
@@ -121,34 +121,28 @@ public class Signup_Activity extends AppCompatActivity {
                 signup_password.setText("");
                 signup_cpassword.setText("");
 
-
-                Toast.makeText(getApplicationContext(),"Good",Toast.LENGTH_SHORT).show();
-
                 Map<String,Object> note = new HashMap<>();
+
                 note.put(KEY_USERNAME, usernameStr);
+                note.put(KEY_EMAIL, emailStr);
                 note.put(KEY_PASSWORD, passwordStr);
 
-
-                db.collection("User_ID").document("User_1").set(note)
+                user_coll_ref.document(usernameStr).set(note)
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
-                                Toast.makeText(getApplicationContext(),"Success",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(),"Account created ",Toast.LENGTH_SHORT).show();
+
+                                //Change to main page
                             }
                         })
                         .addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(getApplicationContext(),"Fail",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(),"Account not made !",Toast.LENGTH_SHORT).show();
                             }
                         });
-
             }
-
-
-
-
         }
     };
-
 }

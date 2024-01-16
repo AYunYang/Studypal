@@ -15,6 +15,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -29,11 +30,8 @@ public class Login_Activity extends AppCompatActivity {
     private Button button_login;
     private TextView button_switch_to_signup;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private DocumentReference noteref  = db.document("User_ID/User_1");
-
-    private static final String KEY_USERNAME = "username";
+    private CollectionReference user_coll_ref = db.collection("User_ID");    //Shortcut
     private static final String KEY_PASSWORD = "password";
-
 
 
     @Override
@@ -60,7 +58,7 @@ public class Login_Activity extends AppCompatActivity {
     private View.OnClickListener switch_to_signup = new View.OnClickListener() {     //Button, switch to signup page
         @Override
         public void onClick(View v) {
-            startActivity(new Intent(Login_Activity.this, StartPage_Activity.class));
+            startActivity(new Intent(Login_Activity.this, Signup_Activity.class));
         }
     };
 
@@ -70,64 +68,50 @@ public class Login_Activity extends AppCompatActivity {
             String usernameStr = login_username.getText().toString().trim();
             String passwordStr = login_password.getText().toString().trim();
 
-            if (usernameStr.isEmpty()){                                 //If username is empty
+            if (usernameStr.isEmpty()) {                                 //If username is empty
                 login_username_layout.setHelperText("Username Required !");
                 login_password_layout.setHelperText(" ");
                 return;
             }
-            if (passwordStr.isEmpty()){                                 //If Password is empty
+            if (passwordStr.isEmpty()) {                                 //If Password is empty
                 login_username_layout.setHelperText(" ");
                 login_password_layout.setHelperText("Password Required !");
                 return;
-            }
-
-            else {
+            } else {
                 login_username_layout.setHelperText(" ");
                 login_password_layout.setHelperText(" ");
-                login_username.setText("");
-                login_password.setText("");
 
+                user_coll_ref.document(usernameStr).get()    //Pull document with same username from USER_ID collection
+                        .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {  //If managed to pull/Document exist
+                            @Override
+                            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                if (documentSnapshot.exists()) {
 
+                                    String storedPassword = documentSnapshot.getString(KEY_PASSWORD);  //Pull Password
 
-            }
+                                    if (storedPassword.equals(passwordStr)){     //Correct Password
+                                        Toast.makeText(getApplicationContext(), "LOG IN !" + storedPassword, Toast.LENGTH_SHORT).show();
 
-            noteref.get()
-                    .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                        @Override
-                        public void onSuccess(DocumentSnapshot documentSnapshot) {
-                            if(documentSnapshot.exists()){
+                                        //Change to main page
+                                    }
 
-                                Map<String,Object> user = documentSnapshot.getData();
+                                    else {          //Incorrect Password
+                                        login_password_layout.setHelperText("Incorrect Password");
 
-                                String storedUsername = user.get(KEY_USERNAME).toString().trim();
-                                String storedPassword = user.get(KEY_PASSWORD).toString().trim();
-
-                                String enteredUsername = login_username.getText().toString().trim();
-                                String enteredPassword = login_password.getText().toString().trim();
-
-                                if (storedUsername.equals(enteredUsername) && storedPassword.equals(enteredPassword)) {
-                                    Toast.makeText(getApplicationContext(), "User does exist", Toast.LENGTH_SHORT).show();
-                                } else {
-                                    Toast.makeText(getApplicationContext(), "User does not exist or invalid credentials", Toast.LENGTH_SHORT).show();
+                                    }
                                 }
-
-                            }else{
-                                Toast.makeText(getApplicationContext(),"User does not exist",Toast.LENGTH_SHORT).show();
-
+                                else {
+                                    login_username_layout.setHelperText("Account does not exist");
+                                }
                             }
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(getApplicationContext(),"Error",Toast.LENGTH_SHORT).show();
-
-                        }
-                    });
-
-
+                        })
+                        .addOnFailureListener(new OnFailureListener() { //Failure
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+            }
         }
     };
-
-
 }
