@@ -27,7 +27,6 @@ public class EditProfile_Fragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_editprofile, container, false);
 
         button_Save.findViewById(R.id.id_save);
-        button_Save.setOnClickListener();
 
         return view;
     }
