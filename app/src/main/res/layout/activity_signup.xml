@@ -30,7 +30,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="410dp"
+            android:layout_height="460dp"
             android:orientation="vertical">
 
             <com.google.android.material.textfield.TextInputLayout
@@ -61,7 +61,6 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-
                 android:id="@+id/id_signup_email_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -84,7 +83,7 @@
                     android:layout_height="50dp"
                     android:layout_gravity="center"
                     android:inputType="text"
-                    android:maxLength="20" />
+                    android:maxLength="30" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout

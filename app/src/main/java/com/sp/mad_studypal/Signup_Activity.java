@@ -133,7 +133,7 @@ public class Signup_Activity extends AppCompatActivity {
                             public void onSuccess(Void aVoid) {
                                 Toast.makeText(getApplicationContext(),"Account created ",Toast.LENGTH_SHORT).show();
 
-                                //Change to main page
+                                startActivity(new Intent(Signup_Activity.this, MainActivity.class));
                             }
                         })
                         .addOnFailureListener(new OnFailureListener() {

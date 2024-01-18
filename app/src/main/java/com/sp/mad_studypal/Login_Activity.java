@@ -92,7 +92,7 @@ public class Login_Activity extends AppCompatActivity {
                                     if (storedPassword.equals(passwordStr)){     //Correct Password
                                         Toast.makeText(getApplicationContext(), "LOG IN !" + storedPassword, Toast.LENGTH_SHORT).show();
 
-                                        //Change to main page
+                                        startActivity(new Intent(Login_Activity.this, MainActivity.class));
                                     }
 
                                     else {          //Incorrect Password
