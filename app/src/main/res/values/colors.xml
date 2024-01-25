@@ -12,6 +12,7 @@
     <color name="Pink"> #EF798A</color>
     <color name="Grey">#E7E7E7</color>
     <color name="Red">#FF0000</color>
+    <color name="darkgrey">#A2A2A2</color>
 
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
