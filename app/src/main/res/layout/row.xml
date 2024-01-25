@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    >
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -11,15 +12,14 @@
         android:layout_weight="1"
         android:layout_margin="12dp"
         app:cardCornerRadius="8dp"
-        app:cardElevation="8dp">
+        app:cardElevation="8dp"
+        android:backgroundTint="#4D9747FF">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:orientation="horizontal"
-            android:layout_margin="12dp"
-            >
+            android:layout_margin="12dp">
 
 
             <ImageView
@@ -27,13 +27,13 @@
                 android:layout_width="120dp"
                 android:layout_height="120dp"
                 app:srcCompat="@drawable/ic_launcher_foreground"
-                android:layout_marginRight="5dp"
+                android:layout_marginRight="5dp" />
 
-                />
             <View
-                android:layout_width="1dp"
+                android:layout_width="2dp"
                 android:layout_height="match_parent"
-                android:background="@android:color/darker_gray" />
+                android:background="@android:color/darker_gray"
+                />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -44,7 +44,8 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:paddingBottom="8dp">
 
                     <TextView
                         android:id="@+id/studyarea_name"
@@ -53,6 +54,7 @@
                         android:layout_weight="0.8"
                         android:text="place holder name"
                         android:layout_gravity="center_vertical"
+                        android:textSize="18dp"
 
                         />
 
@@ -93,7 +95,9 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
                     android:text="placeholder location"
-                    android:layout_marginBottom="8dp"/>
+                    android:textSize="18dp"
+                    android:layout_marginBottom="2dp"
+                    />
             </LinearLayout>
 
         </LinearLayout>
