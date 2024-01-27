@@ -2,6 +2,7 @@ package com.sp.mad_studypal;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.os.Bundle;
 import android.content.Intent;
@@ -21,6 +22,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Signup_Activity extends AppCompatActivity {
+    private Toolbar toolbar;
     private TextInputLayout signup_username_layout;
     private TextInputLayout signup_email_layout;
     private TextInputLayout signup_password_layout;
@@ -43,7 +45,8 @@ public class Signup_Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
 
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.back_arrow); //Set the icon to back_arrow
+        toolbar = findViewById(R.id.toolbar_profile);
+        setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         signup_username_layout = findViewById(R.id.id_signup_username_layout);
@@ -133,7 +136,7 @@ public class Signup_Activity extends AppCompatActivity {
                             public void onSuccess(Void aVoid) {
                                 Toast.makeText(getApplicationContext(),"Account created ",Toast.LENGTH_SHORT).show();
 
-                                startActivity(new Intent(Signup_Activity.this, MainActivity.class));
+                                startActivity(new Intent(Signup_Activity.this, Search_Activity.class));
                             }
                         })
                         .addOnFailureListener(new OnFailureListener() {

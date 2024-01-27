@@ -15,7 +15,7 @@ public class Splash_Activity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent intent = new Intent(Splash_Activity.this, MainActivity.class);         //Reminder to change bnac
+                Intent intent = new Intent(Splash_Activity.this, Search_Activity.class);         //Reminder to change bnac
                 startActivity(intent);
                 finish();
             }

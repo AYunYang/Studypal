@@ -13,22 +13,54 @@
         android:theme="@style/AppTheme"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity"
+            android:name=".About_Activity"
             android:exported="false"
+            android:parentActivityName=".Setting_Activity"
             android:theme="@style/Theme.Design.Light.NoActionBar"/>
+        <activity
+            android:name=".EditProfile_Activity"
+            android:exported="false"
+            android:parentActivityName=".Setting_Activity"
+            android:theme="@style/Theme.Design.Light.NoActionBar"/>
+        <activity
+            android:name=".Setting_Activity"
+            android:exported="false"
+            android:parentActivityName=".Profile_Activity"
+            android:theme="@style/Theme.Design.Light.NoActionBar" />
+        <activity
+            android:name=".Search_Activity"
+            android:exported="false"
+            android:theme="@style/Theme.Design.Light.NoActionBar" />
+        <activity
+            android:name=".Scanner_Activity"
+            android:exported="false"
+            android:theme="@style/Theme.Design.Light.NoActionBar" />
+        <activity
+            android:name=".Saved_Activity"
+            android:exported="false"
+            android:theme="@style/Theme.Design.Light.NoActionBar" />
+        <activity
+            android:name=".Reservation_Activity"
+            android:exported="false"
+            android:theme="@style/Theme.Design.Light.NoActionBar" />
+        <activity
+            android:name=".Profile_Activity"
+            android:exported="false"
+            android:theme="@style/Theme.Design.Light.NoActionBar" />
         <activity
             android:name=".Signup_Activity"
             android:exported="false"
             android:parentActivityName=".StartPage_Activity"
-            android:theme="@style/Theme.Design.Light.NoActionBar"/>
+            android:theme="@style/Theme.Design.Light.NoActionBar" />
         <activity
             android:name=".Login_Activity"
             android:exported="false"
             android:parentActivityName=".StartPage_Activity"
-            android:theme="@style/Theme.Design.Light.NoActionBar"/>
+            android:theme="@style/Theme.Design.Light.NoActionBar" />
         <activity
             android:name=".Splash_Activity"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/Theme.Design.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

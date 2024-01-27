@@ -2,6 +2,7 @@ package com.sp.mad_studypal;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.os.Bundle;
 import android.content.Intent;
@@ -23,6 +24,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.Map;
 
 public class Login_Activity extends AppCompatActivity {
+    private Toolbar toolbar;
     private TextInputLayout login_username_layout;
     private TextInputLayout login_password_layout;
     private TextInputEditText login_username;
@@ -39,7 +41,8 @@ public class Login_Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.back_arrow); //Set the icon to back_arrow
+        toolbar = findViewById(R.id.toolbar_profile);
+        setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         login_username_layout = findViewById(R.id.id_login_username_layout);
@@ -92,7 +95,7 @@ public class Login_Activity extends AppCompatActivity {
                                     if (storedPassword.equals(passwordStr)){     //Correct Password
                                         Toast.makeText(getApplicationContext(), "LOG IN !" + storedPassword, Toast.LENGTH_SHORT).show();
 
-                                        startActivity(new Intent(Login_Activity.this, MainActivity.class));
+                                        startActivity(new Intent(Login_Activity.this, Search_Activity.class));
                                     }
 
                                     else {          //Incorrect Password
