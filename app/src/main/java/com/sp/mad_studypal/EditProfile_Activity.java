@@ -1,5 +1,6 @@
 package com.sp.mad_studypal;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
@@ -7,9 +8,29 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class EditProfile_Activity extends AppCompatActivity {
     private Toolbar toolbar;
+    private String current_email;
+    private EditText user_text;
+    private TextView email_text;
+    private EditText password_text;
+
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private CollectionReference user_coll_ref = db.collection("User_ID");    //Shortcut
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -18,6 +39,36 @@ public class EditProfile_Activity extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar_profile);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        password_text = findViewById(R.id.editText_password);
+        user_text = findViewById(R.id.editText_username);
+        email_text = findViewById(R.id.editText_email);
+
+        holder object = new holder(getApplicationContext());
+        current_email = object.getVariable();
+
+        user_coll_ref.document(current_email).get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        if (documentSnapshot.exists()) {
+
+                            String storedPassword = documentSnapshot.getString("password");  //Pull Password
+                            String storedUsername = documentSnapshot.getString("username");
+                            email_text.setText(current_email);
+                            password_text.setText(storedPassword);
+                            user_text.setText(storedUsername);
+                        } else {
+                            Toast.makeText(getApplicationContext(), "Error -No record", Toast.LENGTH_SHORT).show();
+                        }
+                }
+        })
+                .addOnFailureListener(new OnFailureListener() { //Failure
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getApplicationContext(), "Error-Unable to pull", Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     @Override
@@ -29,6 +80,28 @@ public class EditProfile_Activity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.save_button) {
+            email_text.getText().toString().trim();
+            password_text.getText().toString().trim();
+
+            Map<String, Object> note = new HashMap<>();
+            note.put("username", user_text.getText().toString().trim());
+            note.put("password", password_text.getText().toString().trim());
+
+            user_coll_ref.document(current_email).update(note)    //Pull document with same username from USER_ID collection
+            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void unused) {
+                    Toast.makeText(getApplicationContext(), "Able to update username and password", Toast.LENGTH_SHORT).show();
+                }
+
+            })
+                    .addOnFailureListener(new OnFailureListener() { //Failure
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
 
         }
         return super.onOptionsItemSelected(item);

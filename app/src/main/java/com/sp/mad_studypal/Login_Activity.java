@@ -33,8 +33,6 @@ public class Login_Activity extends AppCompatActivity {
     private TextView button_switch_to_signup;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private CollectionReference user_coll_ref = db.collection("User_ID");    //Shortcut
-    private static final String KEY_PASSWORD = "password";
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,11 +66,11 @@ public class Login_Activity extends AppCompatActivity {
     private View.OnClickListener login = new View.OnClickListener() {    //Login button
         @Override
         public void onClick(View v) {
-            String usernameStr = login_username.getText().toString().trim();
+            String emailStr = login_username.getText().toString().trim();
             String passwordStr = login_password.getText().toString().trim();
 
-            if (usernameStr.isEmpty()) {                                 //If username is empty
-                login_username_layout.setHelperText("Username Required !");
+            if (emailStr.isEmpty()) {                                 //If username is empty
+                login_username_layout.setHelperText("Email Required !");
                 login_password_layout.setHelperText(" ");
                 return;
             }
@@ -84,18 +82,22 @@ public class Login_Activity extends AppCompatActivity {
                 login_username_layout.setHelperText(" ");
                 login_password_layout.setHelperText(" ");
 
-                user_coll_ref.document(usernameStr).get()    //Pull document with same username from USER_ID collection
+                user_coll_ref.document(emailStr).get()    //Pull document with same username from USER_ID collection
                         .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {  //If managed to pull/Document exist
                             @Override
                             public void onSuccess(DocumentSnapshot documentSnapshot) {
                                 if (documentSnapshot.exists()) {
 
-                                    String storedPassword = documentSnapshot.getString(KEY_PASSWORD);  //Pull Password
+                                    String storedPassword = documentSnapshot.getString("password");  //Pull Password
 
                                     if (storedPassword.equals(passwordStr)){     //Correct Password
-                                        Toast.makeText(getApplicationContext(), "LOG IN !" + storedPassword, Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getApplicationContext(), "LOG IN", Toast.LENGTH_SHORT).show();
 
-                                        startActivity(new Intent(Login_Activity.this, Search_Activity.class));
+                                        holder object = new holder(getApplicationContext());
+                                        object.saveVariable(emailStr);
+
+                                        Intent intent = new Intent(Login_Activity.this, Search_Activity.class);
+                                        startActivity(intent);
                                     }
 
                                     else {          //Incorrect Password

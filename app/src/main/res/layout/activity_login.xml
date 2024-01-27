@@ -30,7 +30,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="30dp"
                 android:layout_marginRight="30dp"
-                android:hint="Username"
+                android:hint="Email"
                 app:counterEnabled="false"
                 app:endIconDrawable="@drawable/baseline_clear_24"
                 app:endIconMode="clear_text"
@@ -46,8 +46,7 @@
                     android:id="@+id/id_login_username"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:layout_gravity="center"
-                    android:maxLength="20" />
+                    android:layout_gravity="center"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 

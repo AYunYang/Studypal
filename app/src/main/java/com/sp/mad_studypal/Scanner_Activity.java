@@ -6,12 +6,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
 public class Scanner_Activity extends AppCompatActivity {
     private BottomNavigationView bottom_menu;
+    private String current_email;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,6 +24,9 @@ public class Scanner_Activity extends AppCompatActivity {
 
         MenuItem item = bottom_menu.getMenu().findItem(R.id.bottom_item_scanner);   //Set the profile tab selected
         item.setChecked(true);
+
+        holder object = new holder(getApplicationContext());
+        current_email = object.getVariable();
     }
 
     protected void onStart(){
@@ -38,11 +43,13 @@ public class Scanner_Activity extends AppCompatActivity {
                 return false;
             }
             else if (id == R.id.bottom_item_search){   //Search Tab
-                startActivity(new Intent(Scanner_Activity.this, Search_Activity.class));
+                Intent intent = new Intent(Scanner_Activity.this, Search_Activity.class);
+                startActivity(intent);
                 return false;
             }
             else if (id == R.id.bottom_item_profile){   //Profile Tab
-                startActivity(new Intent(Scanner_Activity.this, Profile_Activity.class));
+                Intent intent = new Intent(Scanner_Activity.this, Profile_Activity.class);
+                startActivity(intent);
                 return false;
             }
 
