@@ -7,20 +7,58 @@
     tools:context=".Search_Activity">
 
     <LinearLayout
-        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@id/id_bottomNavigation"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" >
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Search Main page" />
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="Welcome to StudyPal !"
+                android:textSize="25dp"
+                android:paddingLeft="10dp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:layout_weight="1"></TextView>
+
+            <ImageButton
+                android:id="@+id/id_mapbtn"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_gravity="left|center_vertical"
+                android:background="@android:color/transparent"
+                android:src="@drawable/baseline_map_24"
+                ></ImageButton>
+        </LinearLayout>
+
+        <SearchView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:background="@color/darkgrey">
+
+        </SearchView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerview_StudyArea"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </LinearLayout>
     </LinearLayout>
+
+
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/id_bottomNavigation"
