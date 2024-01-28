@@ -44,14 +44,17 @@
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:background="#D6D6D6"
-            android:queryHint="Search by Name">
+            android:queryHint="Search by Name"
+            android:iconifiedByDefault="false">
 
         </SearchView>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerview_StudyArea"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="match_parent" >
+
+        </androidx.recyclerview.widget.RecyclerView>
 
     </LinearLayout>
 

@@ -11,7 +11,10 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,8 +23,6 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -32,12 +33,15 @@ import java.util.List;
 public class Search_Activity extends AppCompatActivity {
     private BottomNavigationView bottom_menu;
     private String current_email;
-        private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private CollectionReference studyArea_coll_ref = db.collection("Study_Area");
 
     private RecyclerView StudyAreaList;
     private StudyAreaAdapter adapter;
     private List<StudyArea> studyAreas = new ArrayList<>();//array
+
+    private SearchView searchView;
+    private ImageButton mapbtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +65,46 @@ public class Search_Activity extends AppCompatActivity {
         // Retrieve data from Firestore
         retrieveDataFromFirestore();
 
+        searchView = findViewById(R.id.search_view);
+        searchView.clearFocus();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                filterList(newText);
+                return false;
+            }
+        });
+        mapbtn = findViewById(R.id.id_mapbtn);
+        mapbtn.setOnClickListener(onClickMapbtn);
+
+    }
+
+    private View.OnClickListener onClickMapbtn = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Intent intent = new Intent(Search_Activity.this, Scanner_Activity.class); // for the map button, scnner activity is a place holder
+            startActivity(intent);
+
+        }
+    };
+
+    private void filterList(String Text) {
+        List<StudyArea> filteredList = new ArrayList<>();
+        for(StudyArea studyArea : studyAreas){
+            if(studyArea.getName().toLowerCase().contains(Text.toLowerCase())){
+                filteredList.add(studyArea);
+            }
+        }
+        if(filteredList.isEmpty()){
+            Toast.makeText(this, "No data found", Toast.LENGTH_SHORT).show();
+        }else{
+            adapter.setFilteredList(filteredList);
+        }
     }
 
     protected void onStart(){
@@ -92,15 +136,20 @@ public class Search_Activity extends AppCompatActivity {
             this.studyAreas = studyAreas;
         }
 
+        public void setFilteredList(List<StudyArea> filteredList){ //for the search
+            this.studyAreas = filteredList;
+            notifyDataSetChanged();
+        }
+
         @NonNull
         @Override
-        public StudyAreaViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        public StudyAreaViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) { //Inflates the layout for each item in the RecyclerView.
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row, parent, false);
             return new StudyAreaViewHolder(view);
         }
 
         @Override
-        public void onBindViewHolder(@NonNull StudyAreaViewHolder holder, int position) {
+        public void onBindViewHolder(@NonNull StudyAreaViewHolder holder, int position) { //Binds data to the views within each item
             StudyArea studyArea = studyAreas.get(position);
             holder.bind(studyArea);
         }
@@ -108,26 +157,56 @@ public class Search_Activity extends AppCompatActivity {
         @Override
         public int getItemCount() {
             return studyAreas.size();
-        }
+        } //Returns the total number of study areas.
 
-        public class StudyAreaViewHolder extends RecyclerView.ViewHolder {
+        public class StudyAreaViewHolder extends RecyclerView.ViewHolder { //Holds references to the views within each item in the RecyclerView.
             private ImageView studyAreaImage;
             private TextView studyAreaName;
             private ImageView studyAreaSaveButton;
             private ImageView icon1;
             private ImageView icon2;
             private TextView studyAreaLocation;
+            private boolean isSaved = false;
 
             public StudyAreaViewHolder(@NonNull View itemView) {
                 super(itemView);
                 studyAreaImage = itemView.findViewById(R.id.studyarea_image);
                 studyAreaName = itemView.findViewById(R.id.studyarea_name);
                 studyAreaSaveButton = itemView.findViewById(R.id.studyarea_save_button);
+                studyAreaSaveButton.setOnClickListener(onClickSavebutton);
                 icon1 = itemView.findViewById(R.id.icon_1);
                 icon2 = itemView.findViewById(R.id.icon_2);
                 studyAreaLocation = itemView.findViewById(R.id.studyarea_location);
 
+
+                // Set OnClickListener for the entire item view
+                itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        // When the item is clicked, show a toast
+                        Toast.makeText(itemView.getContext(), "Placeholder", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
             }
+
+            private View.OnClickListener onClickSavebutton = new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (!isSaved) {
+                        studyAreaSaveButton.setImageResource(R.drawable.baseline_favorite_24);
+                        isSaved = true;
+                        Toast.makeText(Search_Activity.this, "Saved Study Area !", Toast.LENGTH_SHORT).show();
+                    } else {
+                        // Change back to the original icon
+                        studyAreaSaveButton.setImageResource(R.drawable.baseline_favorite_border_24);
+                        isSaved = false;
+                        Toast.makeText(Search_Activity.this, "Removed Study Area !", Toast.LENGTH_SHORT).show();
+
+                    }
+                }
+
+            };
 
             public void bind(StudyArea studyArea) {
                 // Bind data to your views here
