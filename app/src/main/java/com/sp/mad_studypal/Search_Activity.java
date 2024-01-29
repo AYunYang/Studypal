@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -83,6 +84,7 @@ public class Search_Activity extends AppCompatActivity {
         mapbtn.setOnClickListener(onClickMapbtn);
 
     }
+
 
     private View.OnClickListener onClickMapbtn = new View.OnClickListener() {
         @Override
@@ -212,6 +214,7 @@ public class Search_Activity extends AppCompatActivity {
                 // Bind data to your views here
                 String name = studyArea.getName();
                 String location = studyArea.getLocation();
+                String filepath = "/res/drawable";
 
                 studyAreaName.setText(name);
 

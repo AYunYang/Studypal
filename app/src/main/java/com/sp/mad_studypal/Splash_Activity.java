@@ -19,7 +19,7 @@ public class Splash_Activity extends AppCompatActivity {
                 current_email = object.getVariable();
 
                 if(current_email.equals("Blank")){
-                    Intent intent = new Intent(Splash_Activity.this, Login_Activity.class);
+                    Intent intent = new Intent(Splash_Activity.this, StartPage_Activity.class);
                     startActivity(intent);
                 }
 
