@@ -14,10 +14,6 @@ public class StudyArea {
     private String location;
     @PropertyName("name")
     private String name;
-    @PropertyName("picture")
-    private String picture;
-
-
 
     // Default constructor (needed for Firestore)
     public StudyArea() {
@@ -36,8 +32,6 @@ public class StudyArea {
 
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
-    public String getPicture() { return picture; }
-    public void setPicture(String name) { this.picture = picture; }
 }
 
 

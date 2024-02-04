@@ -10,12 +10,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/textView4"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/saved_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Saved" />
+            android:layout_height="match_parent" />
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
