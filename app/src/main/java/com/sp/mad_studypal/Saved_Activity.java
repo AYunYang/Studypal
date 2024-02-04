@@ -106,29 +106,36 @@ public class Saved_Activity extends AppCompatActivity {
 
         private List<String> savedNames;
 
-        public SavedLocationAdapter(List<String> savedNames) {
+        public SavedLocationAdapter(List<String> savedNames) {    // Constructor to initialize the adapter with a list of savedNames
+
             this.savedNames = savedNames;
         }
 
         @NonNull
         @Override
         public SavedLocationViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            // Inflating the layout for each item in the RecyclerView
+
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.saved_row, parent, false);
             return new SavedLocationViewHolder(view);
         }
 
         @Override
         public void onBindViewHolder(@NonNull SavedLocationViewHolder holder, int position) {
+            // Binding data to the ViewHolder
+
             String savedLocation = savedNames.get(position);
             holder.bind(savedLocation);
         }
 
         @Override
         public int getItemCount() {
+            // Returns the size of the savedNames list
             return savedNames.size();
         }
 
-        public class SavedLocationViewHolder extends RecyclerView.ViewHolder {
+        public class SavedLocationViewHolder extends RecyclerView.ViewHolder {    // ViewHolder class to hold references to views for each item in the RecyclerView
+
 
             private ImageView studyAreaImage;
             private ImageView studyAreaSaveButton;
