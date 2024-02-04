@@ -5,14 +5,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.SearchView;
@@ -24,6 +22,9 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -187,6 +188,7 @@ public class Search_Activity extends AppCompatActivity {
                     public void onClick(View v) {
                         // When the item is clicked, show a toast
                         Toast.makeText(itemView.getContext(), "Placeholder", Toast.LENGTH_SHORT).show();
+
                     }
                 });
 
@@ -198,12 +200,47 @@ public class Search_Activity extends AppCompatActivity {
                     if (!isSaved) {
                         studyAreaSaveButton.setImageResource(R.drawable.baseline_favorite_24);
                         isSaved = true;
-                        Toast.makeText(Search_Activity.this, "Saved Study Area !", Toast.LENGTH_SHORT).show();
+                        String studyAreaName = studyAreas.get(getAdapterPosition()).getName(); // Get the name of the study area associated with this item
+                        DocumentReference userDocRef = db.collection("User_ID").document(current_email).collection("Saved_and_Reservation").document("Saved");
+                        userDocRef.update("saved_location", FieldValue.arrayUnion(studyAreaName))
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        // Update successful
+                                        Toast.makeText(Search_Activity.this, "Saved Study Area !", Toast.LENGTH_SHORT).show();
+
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        // Handle failures
+                                        Toast.makeText(Search_Activity.this, "Error adding !", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
                     } else {
                         // Change back to the original icon
                         studyAreaSaveButton.setImageResource(R.drawable.baseline_favorite_border_24);
                         isSaved = false;
-                        Toast.makeText(Search_Activity.this, "Removed Study Area !", Toast.LENGTH_SHORT).show();
+                        String studyAreaName = studyAreas.get(getAdapterPosition()).getName(); // Get the name of the study area associated with this item
+
+                        DocumentReference userDocRef = db.collection("User_ID").document(current_email).collection("Saved_and_Reservation").document("Saved");
+                        userDocRef.update("saved_location",FieldValue.arrayRemove(studyAreaName))
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        // Update successful
+                                        Toast.makeText(Search_Activity.this, "Removed Study Area !", Toast.LENGTH_SHORT).show();
+
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        // Handle failures
+                                        Toast.makeText(Search_Activity.this, "Error removing !", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
 
                     }
                 }
@@ -214,7 +251,6 @@ public class Search_Activity extends AppCompatActivity {
                 // Bind data to your views here
                 String name = studyArea.getName();
                 String location = studyArea.getLocation();
-                String filepath = "/res/drawable";
 
                 studyAreaName.setText(name);
 
@@ -245,6 +281,31 @@ public class Search_Activity extends AppCompatActivity {
                     icon2.setImageResource(R.drawable.baseline_invisible);
                 }else
                     studyAreaImage.setImageResource(R.drawable.noimage);
+
+                // Check if the study area name exists in the saved_location array
+                DocumentReference userDocRef = db.collection("User_ID").document(current_email).collection("Saved_and_Reservation").document("Saved");
+                userDocRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        if (documentSnapshot.exists()) {
+                            List<String> savedLocations = (List<String>) documentSnapshot.get("saved_location");
+                            if (savedLocations != null && savedLocations.contains(name)) {
+                                studyAreaSaveButton.setImageResource(R.drawable.baseline_favorite_24);
+                                isSaved = true;
+                            } else {
+                                studyAreaSaveButton.setImageResource(R.drawable.baseline_favorite_border_24);
+                                isSaved = false;
+                            }
+                        }
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // Handle failure
+                        Toast.makeText(Search_Activity.this, "Failed to retrieve saved locations", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
             }
         }
     }
