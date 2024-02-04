@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,7 +26,7 @@ public class EditProfile_Activity extends AppCompatActivity {
     private Toolbar toolbar;
     private String current_email;
     private EditText user_text;
-    private TextView email_text;
+    private EditText email_text;
     private EditText password_text;
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -43,6 +44,10 @@ public class EditProfile_Activity extends AppCompatActivity {
         password_text = findViewById(R.id.editText_password);
         user_text = findViewById(R.id.editText_username);
         email_text = findViewById(R.id.editText_email);
+        email_text.setFocusable(false);
+        email_text.setFocusableInTouchMode(false);
+        email_text.setClickable(false);
+        email_text.setOnClickListener(popup);
 
         holder object = new holder(getApplicationContext());
         current_email = object.getVariable();
@@ -91,7 +96,7 @@ public class EditProfile_Activity extends AppCompatActivity {
             .addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void unused) {
-                    Toast.makeText(getApplicationContext(), "Able to update username and password", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Changes saved", Toast.LENGTH_SHORT).show();
                 }
 
             })
@@ -106,4 +111,13 @@ public class EditProfile_Activity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    private View.OnClickListener popup = new View.OnClickListener() {    //Reservation button, switch to reservation
+        @Override
+        public void onClick(View v) {
+            Toast.makeText(getApplicationContext(), "Email cannot be changed", Toast.LENGTH_SHORT).show();
+        }
+    };
+
+
 }
