@@ -90,7 +90,7 @@ public class Search_Activity extends AppCompatActivity {
     private View.OnClickListener onClickMapbtn = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            Intent intent = new Intent(Search_Activity.this, Scanner_Activity.class); // for the map button, scnner activity is a place holder
+            Intent intent = new Intent(Search_Activity.this, Map_activity.class); // for the map button
             startActivity(intent);
 
         }

@@ -12,7 +12,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:targetApi="31">
-
+        <activity
+            android:name=".Map_activity"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat"/>
         <activity
             android:name=".About_Activity"
             android:exported="false"
@@ -32,7 +35,7 @@
             android:name=".Search_Activity"
             android:exported="false"
             android:theme="@style/Theme.Design.Light.NoActionBar"
-            android:windowSoftInputMode="stateHidden|adjustPan"/>
+            android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
             android:name=".Scanner_Activity"
             android:exported="false"
