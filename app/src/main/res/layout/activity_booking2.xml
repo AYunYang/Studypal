@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Saved_Activity">
+    tools:context=".Booking2_Activity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -18,13 +18,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:title=" Saved " />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/saved_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            app:title=" Check Available Seat " />
 
     </LinearLayout>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,12 +2,14 @@ package com.sp.mad_studypal;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,7 +32,9 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Search_Activity extends AppCompatActivity {
     private BottomNavigationView bottom_menu;
@@ -43,7 +47,7 @@ public class Search_Activity extends AppCompatActivity {
     private List<StudyArea> studyAreas = new ArrayList<>();//array
 
     private SearchView searchView;
-    private ImageButton mapbtn;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +68,10 @@ public class Search_Activity extends AppCompatActivity {
         adapter = new StudyAreaAdapter(studyAreas);
         StudyAreaList.setAdapter(adapter);
 
+
+        toolbar = findViewById(R.id.toolbar_profile);
+        setSupportActionBar(toolbar);
+
         // Retrieve data from Firestore
         retrieveDataFromFirestore();
 
@@ -81,21 +89,8 @@ public class Search_Activity extends AppCompatActivity {
                 return false;
             }
         });
-        mapbtn = findViewById(R.id.id_mapbtn);
-        mapbtn.setOnClickListener(onClickMapbtn);
 
     }
-
-
-    private View.OnClickListener onClickMapbtn = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            Intent intent = new Intent(Search_Activity.this, Map_activity.class); // for the map button
-            startActivity(intent);
-
-        }
-    };
-
     private void filterList(String Text) {
         List<StudyArea> filteredList = new ArrayList<>();
         for(StudyArea studyArea : studyAreas){
@@ -182,12 +177,16 @@ public class Search_Activity extends AppCompatActivity {
                 studyAreaLocation = itemView.findViewById(R.id.studyarea_location);
 
 
+
                 // Set OnClickListener for the entire item view
                 itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        // When the item is clicked, show a toast
-                        Toast.makeText(itemView.getContext(), "Placeholder", Toast.LENGTH_SHORT).show();
+                        // When the item is clicked
+
+                        String studyAreaName = studyAreas.get(getAdapterPosition()).getName();
+                        Intent intent = new Intent(Search_Activity.this, Booking1_Activity.class).putExtra("Location", studyAreaName); // for the map button, scnner activity is a place holder
+                        startActivity(intent);
 
                     }
                 });
@@ -335,4 +334,22 @@ public class Search_Activity extends AppCompatActivity {
             //false if the item should not be selected.
         }
     };
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.toolbar_searchpage, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.map) {
+            Intent intent = new Intent(Search_Activity.this, Map_Activity.class); // for the map button, scnner activity is a place holder
+            startActivity(intent);
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
 }

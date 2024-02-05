@@ -13,9 +13,25 @@
         android:theme="@style/AppTheme"
         tools:targetApi="31">
         <activity
-            android:name=".Map_activity"
+            android:name=".Info_Activity"
             android:exported="false"
-            android:theme="@style/Theme.AppCompat"/>
+            android:parentActivityName=".Booking1_Activity"
+            android:theme="@style/Theme.Design.Light.NoActionBar"/>
+        <activity
+            android:name=".Booking2_Activity"
+            android:exported="false"
+            android:parentActivityName=".Booking1_Activity"
+            android:theme="@style/Theme.Design.Light.NoActionBar" />
+        <activity
+            android:name=".Booking1_Activity"
+            android:exported="false"
+            android:parentActivityName=".Search_Activity"
+            android:theme="@style/Theme.Design.Light.NoActionBar" />
+        <activity
+            android:name=".Map_Activity"
+            android:exported="false"
+            android:parentActivityName=".Search_Activity"
+            android:theme="@style/Theme.Design.Light.NoActionBar" />
         <activity
             android:name=".About_Activity"
             android:exported="false"

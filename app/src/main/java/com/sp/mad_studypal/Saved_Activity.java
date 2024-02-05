@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import androidx.appcompat.widget.Toolbar;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
@@ -32,6 +32,7 @@ public class Saved_Activity extends AppCompatActivity {
     private RecyclerView savedLocationsRecyclerView;
     private SavedLocationAdapter adapter;
     private List<String> savedLocations = new ArrayList<>();
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +52,10 @@ public class Saved_Activity extends AppCompatActivity {
 
         // Retrieve saved locations from Firestore
         retrieveSavedLocations();
+
+        toolbar = findViewById(R.id.toolbar_profile);       //Link the toolbar in xml to actionbar
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     private void retrieveSavedLocations() {

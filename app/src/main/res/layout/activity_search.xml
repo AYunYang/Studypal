@@ -13,29 +13,20 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/id_bottomNavigation">
 
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar_profile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:title=" Welcome to StudyPal ! " />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="1"
-                android:paddingLeft="10dp"
-                android:text="Welcome to StudyPal !"
-                android:textColor="@color/black"
-                android:textSize="25dp"
-                android:textStyle="bold"></TextView>
-
-            <ImageButton
-                android:id="@+id/id_mapbtn"
-                android:layout_width="45dp"
-                android:layout_height="45dp"
-                android:layout_gravity="left|center_vertical"
-                android:background="@android:color/transparent"
-                android:src="@drawable/baseline_map_24"></ImageButton>
         </LinearLayout>
 
         <SearchView

@@ -5,12 +5,12 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.os.Bundle;
 
-public class Map_Activity extends AppCompatActivity {
+public class Info_Activity extends AppCompatActivity {
     private Toolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_map);
+        setContentView(R.layout.activity_info);
 
         toolbar = findViewById(R.id.toolbar_profile);
         setSupportActionBar(toolbar);

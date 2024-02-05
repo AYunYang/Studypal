@@ -69,7 +69,7 @@
             android:layout_margin="10dp"
             android:background="@color/Pink"
             android:text="Logout"
-            android:textColor="@color/Grey"
+            android:textColor="@color/white"
             android:textSize="20sp" />
     </LinearLayout>
 

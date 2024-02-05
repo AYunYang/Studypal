@@ -1,5 +1,11 @@
 <resources>
     <string name="app_name">StudyPal</string>
     <string name="title_activity_maps">MapsActivity</string>
+    
+    <string-array name="study_area">
 
+        <item>Study Area 1</item>
+        <item>Study Area 2</item>
+
+    </string-array>
 </resources>
