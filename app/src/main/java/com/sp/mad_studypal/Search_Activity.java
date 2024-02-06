@@ -345,7 +345,7 @@ public class Search_Activity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.map) {
-            Intent intent = new Intent(Search_Activity.this, Map_activity.class); // for the map button, scnner activity is a place holder
+            Intent intent = new Intent(Search_Activity.this, Map_Activity.class); // for the map button, scnner activity is a place holder
             startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
