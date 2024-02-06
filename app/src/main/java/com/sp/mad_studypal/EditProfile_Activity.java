@@ -62,6 +62,7 @@ public class EditProfile_Activity extends AppCompatActivity {
                             email_text.setText(current_email);
                             password_text.setText(storedPassword);
                             user_text.setText(storedUsername);
+
                         } else {
                             Toast.makeText(getApplicationContext(), "Error -No record", Toast.LENGTH_SHORT).show();
                         }
