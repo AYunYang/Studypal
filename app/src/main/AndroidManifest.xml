@@ -28,7 +28,7 @@
             android:parentActivityName=".Search_Activity"
             android:theme="@style/Theme.Design.Light.NoActionBar" />
         <activity
-            android:name=".Map_Activity"
+            android:name=".Map_activity"
             android:exported="false"
             android:parentActivityName=".Search_Activity"
             android:theme="@style/Theme.Design.Light.NoActionBar" />
