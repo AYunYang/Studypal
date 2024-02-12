@@ -12,6 +12,7 @@
         app:cardCornerRadius="8dp"
         android:backgroundTint="@color/lightpurple">
         <View
+            android:id="@+id/status"
             android:layout_width="10dp"
             android:layout_height="145dp"
             android:background="@android:color/holo_green_dark" />
@@ -111,7 +112,8 @@
 
             </LinearLayout>
 
-            <com.google.android.material.button.MaterialButton
+            <Button
+                android:id="@+id/cancel_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@color/Red"
@@ -121,7 +123,7 @@
                 android:textStyle="bold"
                 style="@style/Widget.Material3.Button.OutlinedButton"
                 android:layout_gravity="center_vertical"
-                ></com.google.android.material.button.MaterialButton>
+                ></Button>
 
 
         </LinearLayout>
