@@ -20,6 +20,7 @@ import java.util.Map;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -137,7 +138,7 @@ public class Reservation_Activity extends AppCompatActivity {
             private TextView seatNoTextView;
             private ImageView studyarea_image;
             private View status;
-            private Button removeresbtn;
+            private ImageButton removeresbtn;
 
 
             public ReservationViewHolder(@NonNull View itemView) {

@@ -35,7 +35,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:background="#D6D6D6"
-            android:queryHint="Search by Name"
+            android:queryHint="Search By Name"
             android:iconifiedByDefault="false">
 
         </SearchView>
