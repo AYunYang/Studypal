@@ -19,7 +19,6 @@ import java.util.List;
 import java.util.Map;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -74,7 +73,7 @@ public class Reservation_Activity extends AppCompatActivity {
                 String time = (String) reservationData.get("time");
                 Long seatNoLong = (Long) reservationData.get("seat_no");
                 int seatNo = seatNoLong != null ? seatNoLong.intValue() : 0;
-                boolean comfirmstatus =(boolean) reservationData.get("confirm");
+                String comfirmstatus =(String) reservationData.get("confirm");
 
                 ReservationModel reservation = new ReservationModel(name, date, time, seatNo,comfirmstatus);
                 resLocations.add(reservation);
@@ -121,7 +120,7 @@ public class Reservation_Activity extends AppCompatActivity {
                 holder.studyarea_image.setImageResource(R.drawable.noimage);
             }
 
-            if(reservation.getConfirmstatus() == false){
+            if(reservation.getConfirmstatus().equals("false")){
                 holder.status.setBackgroundColor(Color.parseColor("#F19C1B"));
             }
         }

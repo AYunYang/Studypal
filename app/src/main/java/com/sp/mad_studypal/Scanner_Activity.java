@@ -4,24 +4,32 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.journeyapps.barcodescanner.ScanContract;
 import com.journeyapps.barcodescanner.ScanOptions;
+
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Scanner_Activity extends AppCompatActivity {
     private BottomNavigationView bottom_menu;
     private String current_email;
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private CollectionReference bookingsCollectionRef;
 
     private Button btn_scan;
     @Override
@@ -40,6 +48,14 @@ public class Scanner_Activity extends AppCompatActivity {
 
         btn_scan = findViewById(R.id.btn_scan);
         btn_scan.setOnClickListener(v -> {scanCode();});
+
+        bookingsCollectionRef = db.collection("User_ID")
+                .document(current_email)
+                .collection("Saved_and_Reservation")
+                .document("Reservation")
+                .collection("Bookings");
+
+
     }
 
     protected void onStart(){
@@ -51,7 +67,7 @@ public class Scanner_Activity extends AppCompatActivity {
 
     private void scanCode(){
         ScanOptions options = new ScanOptions();
-        options.setPrompt("Scan a barcode");
+        options.setPrompt("Scan a QRcode");
         options.setBeepEnabled(true);
         options.setBarcodeImageEnabled(true);
         options.setOrientationLocked(true);
@@ -63,17 +79,90 @@ public class Scanner_Activity extends AppCompatActivity {
     //launch the camera scanning
     ActivityResultLauncher<ScanOptions> barLauncher = registerForActivityResult(new ScanContract(), result -> {
         if(result.getContents() !=null){
-            AlertDialog.Builder builder = new AlertDialog.Builder(Scanner_Activity.this);
-            builder.setTitle("Result");
-            builder.setMessage(result.getContents());
-            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                }
-            }).show();
+            //handleScanResult(result.getContents());
+            updateFirebase(result.getContents());
         }
     });
+
+    private void updateFirebase(String qrcode) {
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy,HH:mm");
+        String formattedDateTime = currentDateTime.format(formatter);
+
+        String[] dateAndTime = formattedDateTime.split(",");
+
+        // Extract the current date and time components
+        String currentdateString = dateAndTime[0]; // Contains "dd-mm-yyyy"
+
+        String[] parts = currentdateString.split("-"); // Splitting the current date string
+        // Adjust the month value to be 1-based
+        int monthValue = Integer.parseInt(parts[1]) - 1; // Incrementing the month value by 1
+        // Construct the new date string with the adjusted month value
+        String adjustedDateString = parts[0] + "-" + monthValue + "-" + parts[2]; //13-02-2024 will be changed to 13-1-2024 (Both still 13Feb)
+
+        String currenttimeString = dateAndTime[1]; // Contains "hh:mm"
+
+        AtomicBoolean atLeastOneBookingInRange = new AtomicBoolean(false); // Flag to track if at least one booking is in range
+
+        bookingsCollectionRef.get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                        // Access each document
+                        String bookingId = documentSnapshot.getId();
+                        Map<String, Object> data = documentSnapshot.getData();
+
+                        // Access data fields as needed
+                        String date = (String) data.get("date");
+                        String timeslot = (String) data.get("timeslot");
+                        String dbqrcode = (String) data.get("qrcode");
+                        String[] splittimeslot = timeslot.split("-"); //eg 2pm-4pm -> 2pm and 4pm
+                        String startTimeString = splittimeslot[0].trim(); // eg. 2pm
+                        String endTimeString = splittimeslot[1].trim(); // eg. 4pm
+
+                        // convert start time into LocalTime objects (if you want to do testing change the date using x:xx)
+                        LocalTime startTime = LocalTime.parse(startTimeString, DateTimeFormatter.ofPattern("h:mma")); //2:00-->h:mma 2.00-->h.mma
+                        // convert current time into LocalTime object
+                        LocalTime currentTime = LocalTime.parse(currenttimeString, DateTimeFormatter.ofPattern("HH:mm"));
+
+                        if (date.equals(adjustedDateString) &&
+                                currentTime.isAfter(startTime) &&
+                                currentTime.isBefore(startTime.plusMinutes(15)) &&
+                                qrcode.equals(dbqrcode)) {
+                                // Booking is in the current range
+
+                            AlertDialog.Builder builder = new AlertDialog.Builder(Scanner_Activity.this);
+                            builder.setTitle("Result");
+                            builder.setMessage("You have Reached");
+                            builder.setPositiveButton("OK", (dialog, which) -> dialog.dismiss()).show();
+
+                            bookingsCollectionRef.document(bookingId).update("confirm", "true")
+                                    .addOnSuccessListener(aVoid -> {
+                                        // Update successful
+                                        Toast.makeText(Scanner_Activity.this, "Firebase updated successfully", Toast.LENGTH_SHORT).show();
+                                    })
+                                    .addOnFailureListener(e -> {
+                                        // Update failed
+                                        Toast.makeText(Scanner_Activity.this, "Firebase update failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                    });
+
+                            // Set the flag to true as at least one booking is in range
+                            atLeastOneBookingInRange.set(true);
+                            break; // No need to continue checking other bookings once one is found
+                        }
+                    }
+
+                    // Check if no booking was in range
+                    if (!atLeastOneBookingInRange.get()) {
+                        // Current time is not within the booking time range
+                        Toast.makeText(Scanner_Activity.this, "Current time is not within the booking time range", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    // Handle any potential errors
+                    Toast.makeText(Scanner_Activity.this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                });
+    }
+
 
     NavigationBarView.OnItemSelectedListener bottom_menu_select =  new NavigationBarView.OnItemSelectedListener() {      //Bottom Menu selected
         @Override

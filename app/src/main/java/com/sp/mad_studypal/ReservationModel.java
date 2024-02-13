@@ -5,9 +5,9 @@ public class ReservationModel {
     private String date;
     private String time;
     private int seatNo;
-    private boolean confirmstatus;
+    private String confirmstatus;
 
-    public ReservationModel(String name, String date, String time, int seatNo ,boolean confirmstatus) {
+    public ReservationModel(String name, String date, String time, int seatNo ,String confirmstatus) {
         this.name = name;
         this.date = date;
         this.time = time;
@@ -30,7 +30,7 @@ public class ReservationModel {
     public int getSeatNo() {
         return seatNo;
     }
-    public boolean getConfirmstatus(){
+    public String getConfirmstatus(){
         return confirmstatus;
     }
 }
