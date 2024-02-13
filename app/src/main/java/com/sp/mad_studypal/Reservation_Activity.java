@@ -188,7 +188,7 @@ public class Reservation_Activity extends AppCompatActivity {
                         .collection("Saved_and_Reservation")
                         .document("Reservation")
                         .collection("Bookings")
-                        .document(bookingId) //this must change "booking_1"
+                        .document(bookingId)
                         .delete()
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override

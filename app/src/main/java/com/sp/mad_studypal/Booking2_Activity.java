@@ -21,6 +21,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
@@ -36,6 +37,7 @@ public class Booking2_Activity extends AppCompatActivity {
     private String timeslot;
     private String user;
     private String input_seat;
+    private String qrcode;
 
     private TextView result_location;
     private TextView result_studyarea;
@@ -49,6 +51,7 @@ public class Booking2_Activity extends AppCompatActivity {
     ArrayList<String> seating_list = new ArrayList<>();
     AutoCompleteTextView dropdown_seating;
     ArrayAdapter<String> adapter_seating;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -196,12 +199,11 @@ public class Booking2_Activity extends AppCompatActivity {
         }
     };
 
-
     void booking_info(){
         //Change to occupied, so others cannot book
         Map<String, Object> data = new HashMap<>();
         data.put(input_seat, "occupied");
-
+        getQRCode();
         db.collection(location).document(studyarea).collection(date).document(timeslot).update(data)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -209,13 +211,14 @@ public class Booking2_Activity extends AppCompatActivity {
                         UUID uuid = UUID.randomUUID();
                         String uniqueId = uuid.toString();
 
+
                         Map<String, Object> data_in = new HashMap<>();          //Add booking information to user
                         data_in.put("confirm", "false");
                         data_in.put("date", date);
                         data_in.put("name", location);
                         data_in.put("studyarea", studyarea);
                         data_in.put("timeslot", timeslot);
-                        data_in.put("qrcode", "12");
+                        data_in.put("qrcode", qrcode);
 
                         db.collection("User_ID").document(user).collection("Saved_and_Reservation").document("Reservation").collection("Bookings").document(uniqueId).set(data_in)
                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -243,6 +246,38 @@ public class Booking2_Activity extends AppCompatActivity {
                     }
                 });
     }
+
+    private void getQRCode() {
+        db.collection("Study_Area")
+                .document(location)
+                .collection("Seat-info")
+                .document(studyarea)
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        if (documentSnapshot.exists()) {
+                            qrcode ="";
+                            if (input_seat.equals("Seat1")) {
+                                qrcode = documentSnapshot.getString("seat1");
+                            } else if (input_seat.equals("Seat2")) {
+                                qrcode = documentSnapshot.getString("seat2");
+                            }
+                        } else {
+                            Toast.makeText(Booking2_Activity.this, "Unsuccessful", Toast.LENGTH_SHORT).show();
+
+                        }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // Handle failures
+                    }
+                });
+    }
+
+
 
     private View.OnClickListener view_seating = new View.OnClickListener() {
         @Override
