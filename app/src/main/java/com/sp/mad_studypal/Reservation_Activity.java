@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -12,8 +13,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -28,12 +33,13 @@ import android.widget.Toast;
 public class Reservation_Activity extends AppCompatActivity {
     private String current_email;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private DocumentReference reservationDocumentRef;
+    private CollectionReference reservationCollectionRef;
 
     private RecyclerView resLocationsRecyclerView;
     private ResLocationAdapter adapter;
     private List<ReservationModel> resLocations = new ArrayList<>();
     private Toolbar toolbar;
+    private String bookingId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,11 +52,11 @@ public class Reservation_Activity extends AppCompatActivity {
 
         holder object = new holder(getApplicationContext());
         current_email = object.getKeyEmail();
-        reservationDocumentRef = db.collection("User_ID")
+        reservationCollectionRef = db.collection("User_ID")
                 .document(current_email)
                 .collection("Saved_and_Reservation")
                 .document("Reservation")
-                .collection("Bookings").document("Booking_1");//for now is just yy acc booking_1
+                .collection("Bookings");
 
         resLocationsRecyclerView = findViewById(R.id.reservation_view);
         resLocationsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -62,28 +68,31 @@ public class Reservation_Activity extends AppCompatActivity {
     }
 
     private void retrieveResLocations() {
-        reservationDocumentRef.get().addOnSuccessListener(documentSnapshot -> {
-            if (documentSnapshot.exists()) {
-                Map<String, Object> reservationData = documentSnapshot.getData();
-                // Assuming you have reservation data stored as a map under the document
+        reservationCollectionRef.get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                        // Access each document
+                        bookingId = documentSnapshot.getId();
+                        Map<String, Object> data = documentSnapshot.getData();
 
-                // Extracting fields from the reservationData map
-                String name = (String) reservationData.get("name");
-                String date = (String) reservationData.get("date");
-                String time = (String) reservationData.get("time");
-                Long seatNoLong = (Long) reservationData.get("seat_no");
-                int seatNo = seatNoLong != null ? seatNoLong.intValue() : 0;
-                String comfirmstatus =(String) reservationData.get("confirm");
+                        // Access data fields as needed
+                        String name = (String) data.get("name");
+                        String date = (String) data.get("date");
+                        String time = (String) data.get("timeslot");
+                        String confirmStatus = (String) data.get("confirm");
+                        String qrcode =(String) data.get("qrcode");
 
-                ReservationModel reservation = new ReservationModel(name, date, time, seatNo,comfirmstatus);
-                resLocations.add(reservation);
-                adapter.notifyDataSetChanged();
-            } else {
-                Toast.makeText(this, "Document does not exist", Toast.LENGTH_SHORT).show();
-            }
-        }).addOnFailureListener(e -> {
-            Toast.makeText(this, "Failed to fetch document: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-        });
+                        ReservationModel reservation = new ReservationModel(name, date, time,confirmStatus,qrcode);
+                        resLocations.add(reservation);
+                    }
+
+                    // Notify the adapter that data has changed
+                    adapter.notifyDataSetChanged();
+                })
+                .addOnFailureListener(e -> {
+                    // Handle any potential errors
+                    Toast.makeText(Reservation_Activity.this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                });
     }
 
     public class ResLocationAdapter extends RecyclerView.Adapter<ResLocationAdapter.ReservationViewHolder> {
@@ -106,8 +115,7 @@ public class Reservation_Activity extends AppCompatActivity {
             holder.nameTextView.setText(reservation.getName());
             holder.dateTextView.setText(reservation.getDate());
             holder.timeTextView.setText(reservation.getTime());
-            holder.seatNoTextView.setText(String.valueOf(reservation.getSeatNo()));
-            
+
             if(reservation.getName().equals("Hilltop")){
                 holder.studyarea_image.setImageResource(R.drawable.hilltop_image);
             } else if (reservation.getName().equals("Library_L1")) {
@@ -123,6 +131,10 @@ public class Reservation_Activity extends AppCompatActivity {
             if(reservation.getConfirmstatus().equals("false")){
                 holder.status.setBackgroundColor(Color.parseColor("#F19C1B"));
             }
+            if(Integer.parseInt(reservation.getQrcode())%2==0){
+                holder.seatNoTextView.setText("2");
+            }else
+                holder.seatNoTextView.setText("1");
         }
 
         @Override
@@ -176,12 +188,12 @@ public class Reservation_Activity extends AppCompatActivity {
                         .collection("Saved_and_Reservation")
                         .document("Reservation")
                         .collection("Bookings")
-                        .document("Booking_1") //this must change "booking_1"
+                        .document(bookingId) //this must change "booking_1"
                         .delete()
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
-                                Toast.makeText(itemView.getContext(), "Document deleted successfully", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(itemView.getContext(), "Reservation deleted successfully", Toast.LENGTH_SHORT).show();
                             }
                         })
                         .addOnFailureListener(new OnFailureListener() {

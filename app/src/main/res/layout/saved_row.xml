@@ -3,11 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    android:orientation="vertical">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_margin="12dp"
         app:cardCornerRadius="8dp"
         android:backgroundTint="@color/lightpurple">
@@ -15,8 +15,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="12dp"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:padding="12dp">
 
 
             <ImageView
@@ -24,7 +24,8 @@
                 android:layout_width="120dp"
                 android:layout_height="120dp"
                 android:layout_marginRight="5dp"
-
+                android:scaleType="centerCrop"
+                android:adjustViewBounds="true"
                 app:srcCompat="@drawable/ic_launcher_foreground" />
 
             <View
@@ -50,9 +51,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_weight="0.8"
-                        android:textSize="18dp"
-
-                        />
+                        android:textSize="18dp" />
 
                     <ImageView
                         android:id="@+id/studyarea_save_button"
@@ -96,7 +95,6 @@
             </LinearLayout>
 
         </LinearLayout>
-
 
     </androidx.cardview.widget.CardView>
 

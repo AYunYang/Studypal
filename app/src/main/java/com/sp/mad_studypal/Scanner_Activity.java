@@ -79,7 +79,6 @@ public class Scanner_Activity extends AppCompatActivity {
     //launch the camera scanning
     ActivityResultLauncher<ScanOptions> barLauncher = registerForActivityResult(new ScanContract(), result -> {
         if(result.getContents() !=null){
-            //handleScanResult(result.getContents());
             updateFirebase(result.getContents());
         }
     });
@@ -96,7 +95,7 @@ public class Scanner_Activity extends AppCompatActivity {
 
         String[] parts = currentdateString.split("-"); // Splitting the current date string
         // Adjust the month value to be 1-based
-        int monthValue = Integer.parseInt(parts[1]) - 1; // Incrementing the month value by 1
+        int monthValue = Integer.parseInt(parts[1]) - 1; // decrease the month value by 1,java month starts from 0
         // Construct the new date string with the adjusted month value
         String adjustedDateString = parts[0] + "-" + monthValue + "-" + parts[2]; //13-02-2024 will be changed to 13-1-2024 (Both still 13Feb)
 
@@ -138,7 +137,7 @@ public class Scanner_Activity extends AppCompatActivity {
                             bookingsCollectionRef.document(bookingId).update("confirm", "true")
                                     .addOnSuccessListener(aVoid -> {
                                         // Update successful
-                                        Toast.makeText(Scanner_Activity.this, "Firebase updated successfully", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(Scanner_Activity.this, "Success", Toast.LENGTH_SHORT).show();
                                     })
                                     .addOnFailureListener(e -> {
                                         // Update failed
