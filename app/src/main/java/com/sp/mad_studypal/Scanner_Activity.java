@@ -114,6 +114,7 @@ public class Scanner_Activity extends AppCompatActivity {
                         String date = (String) data.get("date");
                         String timeslot = (String) data.get("timeslot");
                         String dbqrcode = (String) data.get("qrcode");
+                        String confirmStatus =(String) data.get("confirm");
                         String[] splittimeslot = timeslot.split("-"); //eg 2pm-4pm -> 2pm and 4pm
                         String startTimeString = splittimeslot[0].trim(); // eg. 2pm
                         String endTimeString = splittimeslot[1].trim(); // eg. 4pm
@@ -124,9 +125,10 @@ public class Scanner_Activity extends AppCompatActivity {
                         LocalTime currentTime = LocalTime.parse(currenttimeString, DateTimeFormatter.ofPattern("HH:mm"));
 
                         if (date.equals(adjustedDateString) &&
-                                currentTime.isAfter(startTime) &&
-                                currentTime.isBefore(startTime.plusMinutes(15)) &&
-                                qrcode.equals(dbqrcode)) {
+                                currentTime.isAfter(startTime.minusMinutes(15)) &&
+                                currentTime.isBefore(startTime.plusMinutes(10)) &&
+                                qrcode.equals(dbqrcode)&&
+                                confirmStatus.equals("false")) {
                                 // Booking is in the current range
 
                             AlertDialog.Builder builder = new AlertDialog.Builder(Scanner_Activity.this);
@@ -153,8 +155,12 @@ public class Scanner_Activity extends AppCompatActivity {
                     // Check if no booking was in range
                     if (!atLeastOneBookingInRange.get()) {
                         // Current time is not within the booking time range
-                        Toast.makeText(Scanner_Activity.this, "Current time is not within the booking time range", Toast.LENGTH_SHORT).show();
+                        AlertDialog.Builder builder = new AlertDialog.Builder(Scanner_Activity.this);
+                        builder.setTitle("Incorrect Booking date,Time or Area");
+                        builder.setMessage("Please check your reservations");
+                        builder.setPositiveButton("OK", (dialog, which) -> dialog.dismiss()).show();
                     }
+
                 })
                 .addOnFailureListener(e -> {
                     // Handle any potential errors
