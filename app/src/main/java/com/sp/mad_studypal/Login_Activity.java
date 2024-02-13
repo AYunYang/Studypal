@@ -94,7 +94,7 @@ public class Login_Activity extends AppCompatActivity {
                                         Toast.makeText(getApplicationContext(), "LOG IN", Toast.LENGTH_SHORT).show();
 
                                         holder object = new holder(getApplicationContext());
-                                        object.saveVariable(emailStr);
+                                        object.saveEmail(emailStr);
 
                                         Intent intent = new Intent(Login_Activity.this, Search_Activity.class);
                                         startActivity(intent);

@@ -36,7 +36,7 @@ public class Scanner_Activity extends AppCompatActivity {
         item.setChecked(true);
 
         holder object = new holder(getApplicationContext());
-        current_email = object.getVariable();
+        current_email = object.getKeyEmail();
 
         btn_scan = findViewById(R.id.btn_scan);
         btn_scan.setOnClickListener(v -> {scanCode();});

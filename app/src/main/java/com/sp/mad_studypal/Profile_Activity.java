@@ -54,7 +54,7 @@ public class Profile_Activity extends AppCompatActivity {
         item.setChecked(true);
 
         holder object = new holder(getApplicationContext());
-        current_email = object.getVariable();
+        current_email = object.getKeyEmail();
 
         username = findViewById(R.id.profile_username);
         email = findViewById(R.id.profile_email);

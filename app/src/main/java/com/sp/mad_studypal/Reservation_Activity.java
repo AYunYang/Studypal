@@ -46,7 +46,7 @@ public class Reservation_Activity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         holder object = new holder(getApplicationContext());
-        current_email = object.getVariable();
+        current_email = object.getKeyEmail();
         reservationDocumentRef = db.collection("User_ID")
                 .document(current_email)
                 .collection("Saved_and_Reservation")

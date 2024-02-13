@@ -29,24 +29,38 @@
             android:textColor="@color/black"
             android:textSize="20sp" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/layout_studyarea"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-            android:layout_width="210dp"
-            android:layout_height="55dp"
-            android:layout_marginLeft="15dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
-            <AutoCompleteTextView
-                android:id="@+id/dropdown_studyarea"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layout_studyarea"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="210dp"
+                android:layout_height="55dp"
+                android:layout_marginLeft="15dp">
+
+                <AutoCompleteTextView
+                    android:id="@+id/dropdown_studyarea"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:cursorVisible="false"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:inputType="none|textNoSuggestions" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/errStudyArea"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
                 android:layout_weight="1"
-                android:cursorVisible="false"
-                android:focusable="false"
-                android:focusableInTouchMode="false"
-                android:inputType="none|textNoSuggestions" />
-
-        </com.google.android.material.textfield.TextInputLayout>
+                android:textColor="@color/Red" />
+        </LinearLayout>
 
         <Space
             android:layout_width="match_parent"
@@ -60,15 +74,29 @@
             android:textColor="@color/black"
             android:textSize="20sp" />
 
-        <Button
-            android:id="@+id/date_button"
-            android:layout_width="210dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="5dp"
-            android:textSize="14sp"
-            android:paddingLeft="10dp"
-            style="?android:spinnerStyle"/>
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/date_button"
+                style="?android:spinnerStyle"
+                android:layout_width="210dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="5dp"
+                android:paddingLeft="10dp"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/errDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_weight="1"
+                android:textColor="@color/Red" />
+        </LinearLayout>
 
         <Space
             android:layout_width="match_parent"
@@ -82,24 +110,38 @@
             android:textColor="@color/black"
             android:textSize="20sp" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/layout_timeslot"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-            android:layout_width="210dp"
-            android:layout_height="55dp"
-            android:layout_marginLeft="15dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
-            <AutoCompleteTextView
-                android:id="@+id/dropdown_timeslot"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layout_timeslot"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="210dp"
+                android:layout_height="55dp"
+                android:layout_marginLeft="15dp">
+
+                <AutoCompleteTextView
+                    android:id="@+id/dropdown_timeslot"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:cursorVisible="false"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:inputType="none|textNoSuggestions" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/errTimeSlot"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
                 android:layout_weight="1"
-                android:cursorVisible="false"
-                android:focusable="false"
-                android:focusableInTouchMode="false"
-                android:inputType="none|textNoSuggestions" />
-
-        </com.google.android.material.textfield.TextInputLayout>
+                android:textColor="@color/Red" />
+        </LinearLayout>
 
         <Space
             android:layout_width="match_parent"

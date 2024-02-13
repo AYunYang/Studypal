@@ -19,6 +19,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -55,31 +56,40 @@ public class Booking1_Activity extends AppCompatActivity {
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private CollectionReference study_info = db.collection("Study_Area");    //Shortcut
-    private String location;
+    private String pull_location;
+
+    private TextView errStudyArea;
+    private TextView errDate;
+    private TextView errTimeslot;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_booking1);
 
-        location = getIntent().getStringExtra("Location");
-
-        toolbar = findViewById(R.id.toolbar_profile);
+        toolbar = findViewById(R.id.toolbar_profile);           //Toolbar settings
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        check_seats = findViewById(R.id.button_check_seats);
+        holder object = new holder(getApplicationContext());   //Pull Current location
+        pull_location = object.getKeyLocation();
+
+        check_seats = findViewById(R.id.button_check_seats);    //For check seats button
         check_seats.setOnClickListener(checkseats);
 
-        dropdown_studyarea = findViewById(R.id.dropdown_studyarea);
+        errStudyArea = findViewById(R.id.errStudyArea);         //For error message
+        errDate = findViewById(R.id.errDate);
+        errTimeslot = findViewById(R.id.errTimeSlot);
+
+        dropdown_studyarea = findViewById(R.id.dropdown_studyarea);             //Dropdown for studyarea
         adapter_studyareas = new ArrayAdapter<String>(this,R.layout.dropdown_item, studyarea);
         dropdown_studyarea.setAdapter(adapter_studyareas);
 
-        Calendar cal = Calendar.getInstance();
+        Calendar cal = Calendar.getInstance();          //For the date button
         int year = cal.get(Calendar.YEAR);
         int month = cal.get(Calendar.MONTH);
         int day = cal.get(Calendar.DAY_OF_MONTH);
-        String today =day+"/"+month+"/"+year;
+        String today =day+"-"+month+"-"+year;
 
         datebutton = findViewById(R.id.date_button);
         datebutton.setOnClickListener(showDate);
@@ -88,7 +98,7 @@ public class Booking1_Activity extends AppCompatActivity {
         DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                String date = dayOfMonth + "/" + month + "/" + year;
+                String date = dayOfMonth + "-" + month + "-" + year;
                 datebutton.setText(date);
             }
         };
@@ -98,22 +108,21 @@ public class Booking1_Activity extends AppCompatActivity {
         datePickerDialog = new DatePickerDialog(this,style, dateSetListener, year, month, day);
         datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000 );
 
-        dropdown_timeslot = findViewById(R.id.dropdown_timeslot);
+        dropdown_timeslot = findViewById(R.id.dropdown_timeslot);                                               //Dropdown for timeslot
         adapter_timeslot = new ArrayAdapter<String>(this,R.layout.dropdown_item, timeslots);
         dropdown_timeslot.setAdapter(adapter_timeslot);
 
-        study_info.document(location).collection("Seat-info").get()
+        study_info.document(pull_location).collection("Seat-info").get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {   //Loop through and get document name
-                                Log.d("HERE FUCKER", document.getId());
                                 studyarea.add(document.getId());
                             }
 
                         } else {
-                            Toast.makeText(getApplicationContext(), "Cannot pull", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -132,6 +141,9 @@ public class Booking1_Activity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.info) {
+            holder object = new holder(getApplicationContext());
+            object.saveActivity("1");
+
             Intent intent = new Intent(Booking1_Activity.this, Info_Activity.class);
             startActivity(intent);
         }
@@ -141,7 +153,60 @@ public class Booking1_Activity extends AppCompatActivity {
     private View.OnClickListener checkseats = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            Toast.makeText(getApplicationContext(), "Pressed", Toast.LENGTH_SHORT).show();
+            //Pull study area selected
+            String input_studyarea = dropdown_studyarea.getText().toString();
+            String input_date = datebutton.getText().toString();
+            String input_timeslot = dropdown_timeslot.getText().toString();
+
+            errStudyArea.setText(" ");
+            errDate.setText(" ");
+            errTimeslot.setText(" ");
+
+            if (input_studyarea.isEmpty()){
+                errStudyArea.setText(" Study Area required");
+            }
+
+            if (input_timeslot.isEmpty()){
+                errTimeslot.setText(" Time Slot required ");
+            }
+
+            else {
+                db.collection(pull_location).document(input_studyarea).collection(input_date).get()
+                        .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                            @Override
+                            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+
+                                Intent intent = new Intent(Booking1_Activity.this, Booking2_Activity.class);
+
+                                holder object = new holder(getApplicationContext());
+                                object.saveStudyArea(input_studyarea);
+                                object.saveDate(input_date);
+                                object.saveTimeSlot(input_timeslot);
+
+                                if (!queryDocumentSnapshots.isEmpty()) {                                                //If date is created already
+                                    startActivity(intent);
+
+                                } else {                                                                                //If date is not created yet, create the document
+
+                                    Map<String, Object> data = new HashMap<>();
+                                    data.put("Seat1", "empty");
+                                    data.put("Seat2", "empty");
+
+                                    db.collection(pull_location).document(input_studyarea).collection(input_date).document("10am - 12pm").set(data);
+                                    db.collection(pull_location).document(input_studyarea).collection(input_date).document("2pm - 4pm").set(data);
+
+                                    startActivity(intent);
+                                }
+                            }
+                        })
+
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+            }
         }
     };
 

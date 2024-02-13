@@ -61,7 +61,7 @@ public class Search_Activity extends AppCompatActivity {
         item.setChecked(true);
 
         holder object = new holder(getApplicationContext());
-        current_email = object.getVariable();
+        current_email = object.getKeyEmail();
 
         StudyAreaList = findViewById(R.id.recyclerview_StudyArea);
         StudyAreaList.setLayoutManager(new LinearLayoutManager(this));
@@ -184,8 +184,12 @@ public class Search_Activity extends AppCompatActivity {
                     public void onClick(View v) {
                         // When the item is clicked
 
-                        String studyAreaName = studyAreas.get(getAdapterPosition()).getName();
-                        Intent intent = new Intent(Search_Activity.this, Booking1_Activity.class).putExtra("Location", studyAreaName); // for the map button, scnner activity is a place holder
+                        String location = studyAreas.get(getAdapterPosition()).getName();
+
+                        holder object = new holder(getApplicationContext());
+                        object.saveLocation(location);
+
+                        Intent intent = new Intent(Search_Activity.this, Booking1_Activity.class);
                         startActivity(intent);
 
                     }

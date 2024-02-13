@@ -135,7 +135,7 @@ public class Signup_Activity extends AppCompatActivity {
                                 Toast.makeText(getApplicationContext(),"Account created ",Toast.LENGTH_SHORT).show();
 
                                 holder object = new holder(getApplicationContext());
-                                object.saveVariable(emailStr);
+                                object.saveEmail(emailStr);
 
                                 Intent intent = new Intent(Signup_Activity.this, Search_Activity.class);
                                 startActivity(intent);

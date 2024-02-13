@@ -16,7 +16,7 @@ public class Splash_Activity extends AppCompatActivity {
             @Override
             public void run() {
                 holder object = new holder(getApplicationContext());
-                current_email = object.getVariable();
+                current_email = object.getKeyEmail();
 
                 if(current_email.equals("Blank")){
                     Intent intent = new Intent(Splash_Activity.this, StartPage_Activity.class);

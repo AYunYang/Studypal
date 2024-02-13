@@ -49,7 +49,7 @@ public class EditProfile_Activity extends AppCompatActivity {
         email_text.setOnClickListener(popup);
 
         holder object = new holder(getApplicationContext());
-        current_email = object.getVariable();
+        current_email = object.getKeyEmail();
 
         user_coll_ref.document(current_email).get()
                 .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {

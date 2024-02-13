@@ -65,7 +65,7 @@ public class Setting_Activity extends AppCompatActivity {
         public void onClick(View v) {
 
             holder object = new holder(getApplicationContext());
-            object.saveVariable("Blank");
+            object.saveEmail("Blank");
 
             startActivity(new Intent(Setting_Activity.this, StartPage_Activity.class));
         }

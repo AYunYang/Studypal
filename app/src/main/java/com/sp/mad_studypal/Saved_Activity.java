@@ -40,7 +40,7 @@ public class Saved_Activity extends AppCompatActivity {
         setContentView(R.layout.activity_saved);
 
         holder object = new holder(getApplicationContext());
-        current_email = object.getVariable();
+        current_email = object.getKeyEmail();
 
         savedarea_doc_ref = db.collection("User_ID").document(current_email)
                 .collection("Saved_and_Reservation").document("Saved");
