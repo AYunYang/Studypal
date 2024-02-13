@@ -12,6 +12,7 @@ public class holder {
     private static final String KEY_DATE = "date";
     private static final String KEY_TIMESLOT = "timeSlot";
     private static final String KEY_ACTIVITY = "activity";
+    private static final String KEY_BOOKING_ID = "booking_id";
 
     private SharedPreferences preferences;
     private SharedPreferences.Editor editor;
@@ -51,6 +52,11 @@ public class holder {
         editor.apply();
     }
 
+    public void saveBooking_id(String booking_id) {
+        editor.putString(KEY_ACTIVITY, booking_id);
+        editor.apply();
+    }
+
     public String getKeyEmail() {
         return preferences.getString(KEY_EMAIL, "default_email");
     }
@@ -71,7 +77,7 @@ public class holder {
         return preferences.getString(KEY_TIMESLOT, "");
     }
 
-    public String getKeyActivity() {
-        return preferences.getString(KEY_ACTIVITY, "");
-    }
+    public String getKeyActivity() {return preferences.getString(KEY_ACTIVITY, "");}
+
+    public String getKeyBookingId() {return preferences.getString(KEY_BOOKING_ID, "");}
 }

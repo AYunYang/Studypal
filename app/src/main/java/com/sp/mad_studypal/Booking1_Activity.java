@@ -48,7 +48,7 @@ public class Booking1_Activity extends AppCompatActivity {
     private DatePickerDialog datePickerDialog;
     private Button datebutton;
 
-    String[] timeslots = {"10am - 12pm","2pm - 4pm"};
+    String[] timeslots = {"10:00am - 12:00pm","2:00pm - 4:00pm"};
     AutoCompleteTextView dropdown_studyarea;
     AutoCompleteTextView dropdown_timeslot;
     ArrayAdapter<String> adapter_studyareas;

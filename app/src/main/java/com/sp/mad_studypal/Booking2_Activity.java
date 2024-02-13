@@ -154,7 +154,7 @@ public class Booking2_Activity extends AppCompatActivity {
                                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                                                        if (task.isSuccessful()) {
                                                            DocumentSnapshot document = task.getResult();
-                                                           if (document.exists()) { // Document with date exist
+                                                           if (document.exists()) {                             // Document with date exist
 
 
                                                                String hours = document.getString("hours");
@@ -210,7 +210,6 @@ public class Booking2_Activity extends AppCompatActivity {
                     public void onSuccess(Void unused) {                    //Booking Successful
                         UUID uuid = UUID.randomUUID();
                         String uniqueId = uuid.toString();
-
 
                         Map<String, Object> data_in = new HashMap<>();          //Add booking information to user
                         data_in.put("confirm", "false");

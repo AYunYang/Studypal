@@ -2,6 +2,7 @@ package com.sp.mad_studypal;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -81,8 +82,9 @@ public class Reservation_Activity extends AppCompatActivity {
                         String time = (String) data.get("timeslot");
                         String confirmStatus = (String) data.get("confirm");
                         String qrcode =(String) data.get("qrcode");
+                        String booking_id = bookingId;
 
-                        ReservationModel reservation = new ReservationModel(name, date, time,confirmStatus,qrcode);
+                        ReservationModel reservation = new ReservationModel(name, date, time,confirmStatus,qrcode, booking_id);
                         resLocations.add(reservation);
                     }
 
@@ -115,6 +117,7 @@ public class Reservation_Activity extends AppCompatActivity {
             holder.nameTextView.setText(reservation.getName());
             holder.dateTextView.setText(reservation.getDate());
             holder.timeTextView.setText(reservation.getTime());
+            holder.bookingId_hidden.setText(reservation.getBooking_id());  //Set the hidden booking id
 
             if(reservation.getName().equals("Hilltop")){
                 holder.studyarea_image.setImageResource(R.drawable.hilltop_image);
@@ -148,6 +151,7 @@ public class Reservation_Activity extends AppCompatActivity {
             private TextView timeTextView;
             private TextView seatNoTextView;
             private ImageView studyarea_image;
+            private TextView bookingId_hidden;
             private View status;
             private ImageButton removeresbtn;
 
@@ -158,6 +162,7 @@ public class Reservation_Activity extends AppCompatActivity {
                 dateTextView = itemView.findViewById(R.id.id_date);
                 timeTextView = itemView.findViewById(R.id.id_time);
                 seatNoTextView = itemView.findViewById(R.id.id_seat);
+                bookingId_hidden = itemView.findViewById(R.id.hidden);
                 studyarea_image = itemView.findViewById(R.id.studyarea_image);
                 status = itemView.findViewById(R.id.status);
                 removeresbtn = itemView.findViewById(R.id.cancel_button);
@@ -171,16 +176,24 @@ public class Reservation_Activity extends AppCompatActivity {
                     if (position != RecyclerView.NO_POSITION) {
                         // Remove the item from the list
                         resLocations.remove(position);
+
+                        //Get booking id for that item
+                        ReservationViewHolder holder = (ReservationViewHolder) resLocationsRecyclerView.findViewHolderForAdapterPosition(position);
+                        View itemView = holder.itemView;
+                        TextView hidden_textview = itemView.findViewById(R.id.hidden);
+                        String booking_id_tmp = hidden_textview.getText().toString();
+
                         // Update the RecyclerView
                         notifyItemRemoved(position);
+
                         // Delete the corresponding document from Firestore
-                        deleteReservationFromFirestore();
+                        deleteReservationFromFirestore(booking_id_tmp);
                     }
                 }
             };
 
             // Method to delete the corresponding document from Firestore
-            private void deleteReservationFromFirestore() {
+            private void deleteReservationFromFirestore(String booking_id) {
 
                 // Access the document reference and delete it
                 db.collection("User_ID")
@@ -188,7 +201,7 @@ public class Reservation_Activity extends AppCompatActivity {
                         .collection("Saved_and_Reservation")
                         .document("Reservation")
                         .collection("Bookings")
-                        .document(bookingId)
+                        .document(booking_id)
                         .delete()
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
