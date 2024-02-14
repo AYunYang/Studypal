@@ -163,11 +163,11 @@ public class Booking1_Activity extends AppCompatActivity {
             errTimeslot.setText(" ");
 
             if (input_studyarea.isEmpty()){
-                errStudyArea.setText(" Study Area required");
+                errStudyArea.setText("Study Area required");
             }
 
             if (input_timeslot.isEmpty()){
-                errTimeslot.setText(" Time Slot required ");
+                errTimeslot.setText("Time Slot required ");
             }
 
             else {

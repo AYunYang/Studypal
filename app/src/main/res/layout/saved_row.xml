@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="12dp"
         app:cardCornerRadius="8dp"
-        android:backgroundTint="@color/lightpurple">
+        android:backgroundTint="#E0B0FF">
 
         <LinearLayout
             android:layout_width="match_parent"

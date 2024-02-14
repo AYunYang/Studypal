@@ -36,7 +36,8 @@
             android:paddingStart="10dp"
             android:text="Edit my profile"
             android:textAlignment="viewStart"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:textColor="@color/white"/>
 
         <Button
             android:id="@+id/to_about"
@@ -50,7 +51,8 @@
             android:paddingStart="10dp"
             android:text="About"
             android:textAlignment="viewStart"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:textColor="@color/white"/>
 
         <View
             android:id="@+id/view2"
