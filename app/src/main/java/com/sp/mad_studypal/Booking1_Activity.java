@@ -192,8 +192,8 @@ public class Booking1_Activity extends AppCompatActivity {
                                     data.put("Seat1", "empty");
                                     data.put("Seat2", "empty");
 
-                                    db.collection(pull_location).document(input_studyarea).collection(input_date).document("10am - 12pm").set(data);
-                                    db.collection(pull_location).document(input_studyarea).collection(input_date).document("2pm - 4pm").set(data);
+                                    db.collection(pull_location).document(input_studyarea).collection(input_date).document("10:00am - 12:00pm").set(data);
+                                    db.collection(pull_location).document(input_studyarea).collection(input_date).document("2:00pm - 4:00pm").set(data);
 
                                     startActivity(intent);
                                 }
