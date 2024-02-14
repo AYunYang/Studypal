@@ -53,6 +53,13 @@
             android:textSize="24sp"
             android:textStyle="bold"
             android:layout_gravity="center"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="20dp"
+            android:textSize="18dp"
+            android:textAlignment="center"
+            android:text="Our app is designed to help students easily locate available study spots, saving them time and effort from traveling to multiple places."/>
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
