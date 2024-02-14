@@ -3,7 +3,12 @@ package com.sp.mad_studypal;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.NotificationCompat;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.CalendarContract;
@@ -24,6 +29,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.type.Color;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -226,6 +232,8 @@ public class Booking2_Activity extends AppCompatActivity {
                                     @Override
                                     public void onSuccess(Void unused) {
                                         Toast.makeText(getApplicationContext(), "Booked", Toast.LENGTH_SHORT).show();
+
+                                        makeNotication(date);
                                         Intent intent = new Intent(Booking2_Activity.this, Reservation_Activity.class);
                                         startActivity(intent);
                                     }
@@ -286,5 +294,34 @@ public class Booking2_Activity extends AppCompatActivity {
             startActivity(intent);
         }
     };
+
+    private void makeNotication(String date){
+        String channel_id = "NAME NAME NAME";
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), channel_id);
+        builder.setSmallIcon(R.drawable.studypal_icon2);
+        builder.setContentTitle("Reminder");
+        builder.setContentText("Booking on " + date);
+        builder.setAutoCancel(true);
+        builder.setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
+        Intent intent = new Intent(getApplicationContext(), Reservation_Activity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+        PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, intent, PendingIntent.FLAG_IMMUTABLE);
+        builder.setContentIntent(pendingIntent);
+
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationChannel  notificationChannel = notificationManager.getNotificationChannel(channel_id);
+        if (notificationChannel == null){
+            int important = NotificationManager.IMPORTANCE_HIGH;
+            notificationChannel = new NotificationChannel(channel_id, "HEHE HAHA", important);
+            notificationChannel.setLightColor(Color.GREEN_FIELD_NUMBER);
+            notificationChannel.enableVibration(true);
+            notificationManager.createNotificationChannel(notificationChannel);
+        }
+
+        notificationManager.notify(0, builder.build());
+
+    }
 
 }

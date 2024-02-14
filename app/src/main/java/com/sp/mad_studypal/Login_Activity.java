@@ -1,19 +1,23 @@
 package com.sp.mad_studypal;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.os.Bundle;
 import android.content.Intent;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.firestore.CollectionReference;
@@ -21,7 +25,14 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Login_Activity extends AppCompatActivity {
     private Toolbar toolbar;
@@ -89,12 +100,15 @@ public class Login_Activity extends AppCompatActivity {
                                 if (documentSnapshot.exists()) {
 
                                     String storedPassword = documentSnapshot.getString("password");  //Pull Password
+                                    String storedUsername = documentSnapshot.getString("username");
 
                                     if (storedPassword.equals(passwordStr)){     //Correct Password
-                                        Toast.makeText(getApplicationContext(), "LOG IN", Toast.LENGTH_SHORT).show();
-
                                         holder object = new holder(getApplicationContext());
                                         object.saveEmail(emailStr);
+
+                                        cancel_overdued(emailStr);
+
+                                        Toast.makeText(getApplicationContext(), "Welcome back "+storedUsername, Toast.LENGTH_LONG).show();
 
                                         Intent intent = new Intent(Login_Activity.this, Search_Activity.class);
                                         startActivity(intent);
@@ -119,4 +133,115 @@ public class Login_Activity extends AppCompatActivity {
             }
         }
     };
+
+    private void cancel_overdued(String user) {
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy,HH:mm");
+        String formattedDateTime = currentDateTime.format(formatter);
+
+        String[] dateAndTime = formattedDateTime.split(",");
+
+        String currentdateString = dateAndTime[0];
+
+        String[] parts = currentdateString.split("-");
+
+        int monthValue = Integer.parseInt(parts[1]) - 1;
+
+        String adjustedDateString = parts[0] + "-" + monthValue + "-" + parts[2];
+
+        String currenttimeString = dateAndTime[1];
+
+        user_coll_ref.document(user).collection("Saved_and_Reservation")
+                .document("Reservation")
+                .collection("Bookings").get()
+
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                        // Access each document
+                        String bookingId = documentSnapshot.getId();
+                        Map<String, Object> data = documentSnapshot.getData();
+
+                        // Access data fields as needed
+                        String location = (String) data.get("name");
+                        String studyarea = (String) data.get("studyarea");
+                        String date = (String) data.get("date");
+
+                        String timeslot = (String) data.get("timeslot");
+                        String[] splittimeslot = timeslot.split("-");
+                        String startTimeString = splittimeslot[0].trim();
+                        String endTimeString = splittimeslot[1].trim();
+                        String complete_seat ="";
+
+                        String  qrcode = (String) data.get("qrcode");
+                        if (Integer.parseInt(qrcode) %2 == 0){
+                            complete_seat = "Seat2";
+                        }
+                        else {
+                            complete_seat = "Seat1";
+                        }
+
+                        LocalDate date_changed = LocalDate.parse(date, DateTimeFormatter.ofPattern("dd-M-yyyy"));    //Date of reservation
+                        LocalDate current_dated_changed = LocalDate.parse(adjustedDateString, DateTimeFormatter.ofPattern("dd-M-yyyy"));  //Date of current
+
+                        LocalTime startTime = LocalTime.parse(startTimeString, DateTimeFormatter.ofPattern("h:mma"));
+                        LocalTime endTime = LocalTime.parse(endTimeString, DateTimeFormatter.ofPattern("h:mma"));
+                        LocalTime currentTime = LocalTime.parse(currenttimeString, DateTimeFormatter.ofPattern("HH:mm"));
+
+                        if (current_dated_changed.isAfter(date_changed)){
+                            return_seats(location, studyarea, date, timeslot, complete_seat);
+
+                            // Cancel booking from user account
+                            db.collection("User_ID")
+                                    .document(user)
+                                    .collection("Saved_and_Reservation")
+                                    .document("Reservation")
+                                    .collection("Bookings").document(bookingId).delete();
+                                    break;
+                        }
+
+                        else if(current_dated_changed.isEqual(date_changed)  && currentTime.isAfter(startTime.minusMinutes(15))){
+                            return_seats(location, studyarea, date, timeslot, complete_seat);
+
+                            // Cancel booking from user account
+                            db.collection("User_ID")
+                                    .document(user)
+                                    .collection("Saved_and_Reservation")
+                                    .document("Reservation")
+                                    .collection("Bookings").document(bookingId).delete();
+                                    break;
+
+                        }
+                        else if(current_dated_changed.isEqual(date_changed)  && currentTime.isAfter(endTime)){
+                            // Cancel booking from user account
+                            db.collection("User_ID")
+                                    .document(user)
+                                    .collection("Saved_and_Reservation")
+                                    .document("Reservation")
+                                    .collection("Bookings").document(bookingId).delete();
+                            break;
+
+                        }
+                        else {
+
+                        }
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    // Handle any potential errors
+                    Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_SHORT).show();
+                });
+
+    }
+    private void return_seats(String location, String studyarea, String date, String timeslot, String seatno) {
+        String complete_seat = "Seat"+seatno;
+        Map<String, Object> data = new HashMap<>();
+        data.put(complete_seat, "empty");
+
+        // Access the document reference and delete it
+        db.collection(location)
+                .document(studyarea)
+                .collection(date)
+                .document(timeslot)
+                .update(data);
+    }
 }

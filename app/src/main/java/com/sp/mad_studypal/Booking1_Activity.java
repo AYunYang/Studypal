@@ -48,7 +48,7 @@ public class Booking1_Activity extends AppCompatActivity {
     private DatePickerDialog datePickerDialog;
     private Button datebutton;
 
-    String[] timeslots = {"10:00am - 12:00pm","2:00pm - 4:00pm"};
+    String[] timeslots = {"10:00AM - 12:00PM","2:00PM - 4:00PM"};
     AutoCompleteTextView dropdown_studyarea;
     AutoCompleteTextView dropdown_timeslot;
     ArrayAdapter<String> adapter_studyareas;
@@ -131,25 +131,6 @@ public class Booking1_Activity extends AppCompatActivity {
 
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.toolbar_booking, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.info) {
-            holder object = new holder(getApplicationContext());
-            object.saveActivity("1");
-
-            Intent intent = new Intent(Booking1_Activity.this, Info_Activity.class);
-            startActivity(intent);
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
     private View.OnClickListener checkseats = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -166,7 +147,7 @@ public class Booking1_Activity extends AppCompatActivity {
                 errStudyArea.setText("Study Area required");
             }
 
-            if (input_timeslot.isEmpty()){
+            else if (input_timeslot.isEmpty()){
                 errTimeslot.setText("Time Slot required ");
             }
 
@@ -192,8 +173,8 @@ public class Booking1_Activity extends AppCompatActivity {
                                     data.put("Seat1", "empty");
                                     data.put("Seat2", "empty");
 
-                                    db.collection(pull_location).document(input_studyarea).collection(input_date).document("10:00am - 12:00pm").set(data);
-                                    db.collection(pull_location).document(input_studyarea).collection(input_date).document("2:00pm - 4:00pm").set(data);
+                                    db.collection(pull_location).document(input_studyarea).collection(input_date).document("10:00AM - 12:00PM").set(data);
+                                    db.collection(pull_location).document(input_studyarea).collection(input_date).document("2:00PM - 4:00PM").set(data);
 
                                     startActivity(intent);
                                 }

@@ -177,6 +177,7 @@
                 android:src="@drawable/baseline_cancel_24_redcolour"
                 android:background="?android:attr/selectableItemBackground"
                 />
+
         </LinearLayout>
 
         <!-- Status Indicator -->

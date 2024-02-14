@@ -38,7 +38,7 @@
                 android:id="@+id/layout_studyarea"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                 android:layout_width="210dp"
-                android:layout_height="55dp"
+                android:layout_height="60dp"
                 android:layout_marginLeft="15dp">
 
                 <AutoCompleteTextView
@@ -85,7 +85,7 @@
                 android:id="@+id/date_button"
                 style="?android:spinnerStyle"
                 android:layout_width="210dp"
-                android:layout_height="wrap_content"
+                android:layout_height="60dp"
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="5dp"
                 android:paddingLeft="10dp"
@@ -123,7 +123,7 @@
                 android:id="@+id/layout_timeslot"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                 android:layout_width="210dp"
-                android:layout_height="55dp"
+                android:layout_height="60dp"
                 android:layout_marginLeft="15dp">
 
                 <AutoCompleteTextView

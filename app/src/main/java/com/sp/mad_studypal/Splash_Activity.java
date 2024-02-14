@@ -28,7 +28,7 @@ public class Splash_Activity extends AppCompatActivity {
                 }
 
                 else {
-                    Intent intent = new Intent(Splash_Activity.this, Search_Activity.class);
+                    Intent intent = new Intent(Splash_Activity.this, StartPage_Activity.class);
                     startActivity(intent);
                 }
 

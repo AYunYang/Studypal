@@ -3,6 +3,7 @@ package com.sp.mad_studypal;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -70,7 +71,6 @@ public class Reservation_Activity extends AppCompatActivity {
 
         // Retrieve saved locations from Firestore
         retrieveResLocations();
-
 
         holder new_object = new holder(getApplicationContext());      //Pull information
         user = object.getKeyEmail();
@@ -230,7 +230,7 @@ public class Reservation_Activity extends AppCompatActivity {
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
-                                Toast.makeText(itemView.getContext(), "Reservation deleted successfully", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(itemView.getContext(), "Booking cancel", Toast.LENGTH_SHORT).show();
                             }
                         })
                         .addOnFailureListener(new OnFailureListener() {
@@ -275,8 +275,8 @@ public class Reservation_Activity extends AppCompatActivity {
                             }
                         });
             }
-        }
 
+        }
     }
 }
 

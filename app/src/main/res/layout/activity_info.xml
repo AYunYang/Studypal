@@ -64,7 +64,7 @@
                 android:id="@+id/textView5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="\u2022 You have a maximum daily quota of 6 hours."
+                android:text="\u2022 You have a maximum daily quota of 4 hours."
                 android:textColor="@android:color/black"
                 android:textSize="17dp"
                 android:paddingTop="8dp"

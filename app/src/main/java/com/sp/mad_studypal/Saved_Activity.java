@@ -69,10 +69,10 @@ public class Saved_Activity extends AppCompatActivity {
                                 savedLocations.addAll(savedLocationList);
                                 adapter.notifyDataSetChanged();
                             } else {
-                                Toast.makeText(Saved_Activity.this, "No saved locations found", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(Saved_Activity.this, "No saved locations", Toast.LENGTH_SHORT).show();
                             }
                         } else {
-                            Toast.makeText(Saved_Activity.this, "Document does not exist", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Saved_Activity.this, "Error", Toast.LENGTH_SHORT).show();
                         }
                     }
                 })
