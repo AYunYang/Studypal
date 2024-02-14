@@ -110,63 +110,63 @@ public class Scanner_Activity extends AppCompatActivity {
                         String bookingId = documentSnapshot.getId();
                         Map<String, Object> data = documentSnapshot.getData();
 
-                        // Access data fields as needed
-                        String date = (String) data.get("date");
-                        String timeslot = (String) data.get("timeslot");
-                        String dbqrcode = (String) data.get("qrcode");
-                        String confirmStatus =(String) data.get("confirm");
-                        String[] splittimeslot = timeslot.split("-"); //eg 2pm-4pm -> 2pm and 4pm
-                        String startTimeString = splittimeslot[0].trim(); // eg. 2pm
-                        String endTimeString = splittimeslot[1].trim(); // eg. 4pm
+                            // Access data fields as needed
+                            String date = (String) data.get("date");
+                            String timeslot = (String) data.get("timeslot");
+                            String dbqrcode = (String) data.get("qrcode");
+                            String confirmStatus =(String) data.get("confirm");
+                            String[] splittimeslot = timeslot.split("-"); //eg 2pm-4pm -> 2pm and 4pm
+                            String startTimeString = splittimeslot[0].trim(); // eg. 2pm
+                            String endTimeString = splittimeslot[1].trim(); // eg. 4pm
 
-                        // convert start time into LocalTime objects (if you want to do testing change the date using x:xx)
-                        LocalTime startTime = LocalTime.parse(startTimeString, DateTimeFormatter.ofPattern("h:mma")); //2:00-->h:mma 2.00-->h.mma
-                        // convert current time into LocalTime object
-                        LocalTime currentTime = LocalTime.parse(currenttimeString, DateTimeFormatter.ofPattern("HH:mm"));
+                            // convert start time into LocalTime objects (if you want to do testing change the date using x:xx)
+                            LocalTime startTime = LocalTime.parse(startTimeString, DateTimeFormatter.ofPattern("h:mma")); //2:00-->h:mma 2.00-->h.mma
+                            // convert current time into LocalTime object
+                            LocalTime currentTime = LocalTime.parse(currenttimeString, DateTimeFormatter.ofPattern("HH:mm"));
 
-                        if (date.equals(adjustedDateString) &&
-                                currentTime.isAfter(startTime.minusMinutes(15)) &&
-                                currentTime.isBefore(startTime.plusMinutes(10)) &&
-                                qrcode.equals(dbqrcode)&&
-                                confirmStatus.equals("false")) {
-                                // Booking is in the current range
+                            if (date.equals(adjustedDateString) &&
+                                    currentTime.isAfter(startTime.minusMinutes(15)) &&
+                                    currentTime.isBefore(startTime.plusMinutes(10)) &&
+                                    qrcode.equals(dbqrcode)&&
+                                    confirmStatus.equals("false")) {
+                                    // Booking is in the current range
 
-                            AlertDialog.Builder builder = new AlertDialog.Builder(Scanner_Activity.this);
-                            builder.setTitle("Result");
-                            builder.setMessage("You have Reached");
-                            builder.setPositiveButton("OK", (dialog, which) -> dialog.dismiss()).show();
+                                AlertDialog.Builder builder = new AlertDialog.Builder(Scanner_Activity.this);
+                                builder.setTitle("Result");
+                                builder.setMessage("You have Reached");
+                                builder.setPositiveButton("OK", (dialog, which) -> dialog.dismiss()).show();
 
-                            bookingsCollectionRef.document(bookingId).update("confirm", "true")
-                                    .addOnSuccessListener(aVoid -> {
-                                        // Update successful
-                                        Toast.makeText(Scanner_Activity.this, "Success", Toast.LENGTH_SHORT).show();
-                                    })
-                                    .addOnFailureListener(e -> {
-                                        // Update failed
-                                        Toast.makeText(Scanner_Activity.this, "Firebase update failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                                    });
+                                bookingsCollectionRef.document(bookingId).update("confirm", "true")
+                                        .addOnSuccessListener(aVoid -> {
+                                            // Update successful
+                                            Toast.makeText(Scanner_Activity.this, "Success", Toast.LENGTH_SHORT).show();
+                                        })
+                                        .addOnFailureListener(e -> {
+                                            // Update failed
+                                            Toast.makeText(Scanner_Activity.this, "Firebase update failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                        });
 
-                            // Set the flag to true as at least one booking is in range
-                            atLeastOneBookingInRange.set(true);
-                            break; // No need to continue checking other bookings once one is found
+                                // Set the flag to true as at least one booking is in range
+                                atLeastOneBookingInRange.set(true);
+                                break; // No need to continue checking other bookings once one is found
+                            }
                         }
-                    }
 
-                    // Check if no booking was in range
-                    if (!atLeastOneBookingInRange.get()) {
-                        // Current time is not within the booking time range
-                        AlertDialog.Builder builder = new AlertDialog.Builder(Scanner_Activity.this);
-                        builder.setTitle("Incorrect Booking date,Time or Area");
-                        builder.setMessage("Please check your reservations");
-                        builder.setPositiveButton("OK", (dialog, which) -> dialog.dismiss()).show();
-                    }
+                        // Check if no booking was in range
+                        if (!atLeastOneBookingInRange.get()) {
+                            // Current time is not within the booking time range
+                            AlertDialog.Builder builder = new AlertDialog.Builder(Scanner_Activity.this);
+                            builder.setTitle("Incorrect Booking date,Time or Area");
+                            builder.setMessage("Please check your reservations");
+                            builder.setPositiveButton("OK", (dialog, which) -> dialog.dismiss()).show();
+                        }
 
-                })
-                .addOnFailureListener(e -> {
-                    // Handle any potential errors
-                    Toast.makeText(Scanner_Activity.this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                });
-    }
+                    })
+                    .addOnFailureListener(e -> {
+                        // Handle any potential errors
+                        Toast.makeText(Scanner_Activity.this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    });
+        }
 
 
     NavigationBarView.OnItemSelectedListener bottom_menu_select =  new NavigationBarView.OnItemSelectedListener() {      //Bottom Menu selected

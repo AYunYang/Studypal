@@ -30,7 +30,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
                 android:layout_gravity="center"
-                app:srcCompat="@drawable/studypal_icon2" />
+                app:srcCompat="@drawable/studyicon_v3" />
         </LinearLayout>
 
     </LinearLayout>
