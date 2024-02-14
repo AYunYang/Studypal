@@ -59,7 +59,6 @@
 
                 </LinearLayout>
 
-
                 <!-- Date, Time, Seat -->
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -67,79 +66,104 @@
                     android:orientation="vertical"
                     android:layout_marginTop="8dp">
 
+                    <!-- Study area, Date, Time, Seat -->
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:gravity="center_vertical">
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
 
                         <ImageView
-                            android:id="@+id/icon_1"
+                            android:id="@+id/icon_0"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/baseline_calendar_month_24"
-                            />
+                            android:src="@drawable/baseline_place_24" />
 
                         <TextView
-                            android:id="@+id/id_date"
+                            android:id="@+id/id_studyarea"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Date"
-                            android:textSize="14sp"
+                            android:layout_marginStart="8dp"
+                            android:text="Study Area"
                             android:textColor="@android:color/black"
-                            android:layout_marginStart="8dp"/>
+                            android:textSize="14sp" />
                     </LinearLayout>
+
+                    <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp">
+                    </Space>
+
+                    <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/icon_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/baseline_calendar_month_24" />
+
+                    <TextView
+                        android:id="@+id/id_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="Date"
+                        android:textColor="@android:color/black"
+                        android:textSize="14sp" />
+                </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
+                        android:layout_marginTop="4dp"
                         android:gravity="center_vertical"
-                        android:layout_marginTop="4dp">
+                        android:orientation="horizontal">
 
                         <ImageView
                             android:id="@+id/icon_2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/baseline_access_time_filled_24"
-                            />
+                            android:src="@drawable/baseline_access_time_filled_24" />
 
                         <TextView
                             android:id="@+id/id_time"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
                             android:text="Time"
-                            android:textSize="14sp"
                             android:textColor="@android:color/black"
-                            android:layout_marginStart="8dp"/>
+                            android:textSize="14sp" />
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
+                        android:layout_marginTop="4dp"
                         android:gravity="center_vertical"
-                        android:layout_marginTop="4dp">
+                        android:orientation="horizontal">
 
                         <ImageView
                             android:id="@+id/icon_3"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/baseline_chair_24"
-                            />
+                            android:src="@drawable/baseline_chair_24" />
 
                         <TextView
                             android:id="@+id/id_seat"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
                             android:text="Seat"
-                            android:textSize="14sp"
                             android:textColor="@android:color/black"
-                            android:layout_marginStart="8dp"/>
+                            android:textSize="14sp" />
 
 
                     </LinearLayout>
-
 
                 </LinearLayout>
 

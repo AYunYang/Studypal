@@ -12,8 +12,10 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -21,6 +23,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import android.view.LayoutInflater;
@@ -41,6 +44,7 @@ public class Reservation_Activity extends AppCompatActivity {
     private List<ReservationModel> resLocations = new ArrayList<>();
     private Toolbar toolbar;
     private String bookingId;
+    private String user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +70,11 @@ public class Reservation_Activity extends AppCompatActivity {
 
         // Retrieve saved locations from Firestore
         retrieveResLocations();
+
+
+        holder new_object = new holder(getApplicationContext());      //Pull information
+        user = object.getKeyEmail();
+
     }
 
     private void retrieveResLocations() {
@@ -78,13 +87,14 @@ public class Reservation_Activity extends AppCompatActivity {
 
                         // Access data fields as needed
                         String name = (String) data.get("name");
+                        String studyarea = (String) data.get("studyarea");
                         String date = (String) data.get("date");
                         String time = (String) data.get("timeslot");
                         String confirmStatus = (String) data.get("confirm");
                         String qrcode =(String) data.get("qrcode");
                         String booking_id = bookingId;
 
-                        ReservationModel reservation = new ReservationModel(name, date, time,confirmStatus,qrcode, booking_id);
+                        ReservationModel reservation = new ReservationModel(name, studyarea,date, time,confirmStatus,qrcode, booking_id);
                         resLocations.add(reservation);
                     }
 
@@ -115,6 +125,7 @@ public class Reservation_Activity extends AppCompatActivity {
         public void onBindViewHolder(@NonNull ReservationViewHolder holder, int position) {
             ReservationModel reservation = resLocations.get(position);
             holder.nameTextView.setText(reservation.getName());
+            holder.studyAreaTextView.setText(reservation.getStudyarea());
             holder.dateTextView.setText(reservation.getDate());
             holder.timeTextView.setText(reservation.getTime());
             holder.bookingId_hidden.setText(reservation.getBooking_id());  //Set the hidden booking id
@@ -147,6 +158,7 @@ public class Reservation_Activity extends AppCompatActivity {
 
         public class ReservationViewHolder extends RecyclerView.ViewHolder {
             private TextView nameTextView;
+            private TextView studyAreaTextView;
             private TextView dateTextView;
             private TextView timeTextView;
             private TextView seatNoTextView;
@@ -159,6 +171,7 @@ public class Reservation_Activity extends AppCompatActivity {
             public ReservationViewHolder(@NonNull View itemView) {
                 super(itemView);
                 nameTextView = itemView.findViewById(R.id.id_name);
+                studyAreaTextView = itemView.findViewById(R.id.id_studyarea);
                 dateTextView = itemView.findViewById(R.id.id_date);
                 timeTextView = itemView.findViewById(R.id.id_time);
                 seatNoTextView = itemView.findViewById(R.id.id_seat);
@@ -182,12 +195,23 @@ public class Reservation_Activity extends AppCompatActivity {
                         View itemView = holder.itemView;
                         TextView hidden_textview = itemView.findViewById(R.id.hidden);
                         String booking_id_tmp = hidden_textview.getText().toString();
+                        String studyarea = studyAreaTextView.getText().toString();
+                        String location = nameTextView.getText().toString();
+                        String date = dateTextView.getText().toString();
+                        String timeslot = timeTextView.getText().toString();
+                        String seat_no = seatNoTextView.getText().toString();
 
                         // Update the RecyclerView
                         notifyItemRemoved(position);
 
                         // Delete the corresponding document from Firestore
                         deleteReservationFromFirestore(booking_id_tmp);
+
+                        //Make seat empty again
+                        return_seats(location, studyarea, date, timeslot, seat_no);
+
+                        //Return quota
+                        return_quota(date);
                     }
                 }
             };
@@ -213,6 +237,41 @@ public class Reservation_Activity extends AppCompatActivity {
                             @Override
                             public void onFailure(@NonNull Exception e) {
                                 Toast.makeText(itemView.getContext(), "Failed to delete document: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+            }
+
+            private void return_seats(String location, String studyarea, String date, String timeslot, String seatno) {
+                String complete_seat = "Seat"+seatno;
+                Map<String, Object> data = new HashMap<>();
+                data.put(complete_seat, "empty");
+
+                // Access the document reference and delete it
+                db.collection(location)
+                        .document(studyarea)
+                        .collection(date)
+                        .document(timeslot)
+                        .update(data);
+            }
+
+            private void return_quota(String date) {
+
+                db.collection("User_ID").document(user).collection("Saved_and_Reservation")
+                        .document("quota").collection("quota").document(date).get()
+                        .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                DocumentSnapshot document = task.getResult();
+                                String hours = document.getString("hours");
+                                int number = Integer.parseInt(hours);
+                                number = number + 2;
+                                String results = Integer.toString(number);
+
+                                Map<String, Object> quota = new HashMap<>();
+                                quota.put("hours" , results);
+
+                                db.collection("User_ID").document(user).collection("Saved_and_Reservation").document("quota")
+                                        .collection("quota").document(date).update(quota);
                             }
                         });
             }
