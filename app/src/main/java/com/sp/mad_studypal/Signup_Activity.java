@@ -18,7 +18,9 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Signup_Activity extends AppCompatActivity {
@@ -123,8 +125,12 @@ public class Signup_Activity extends AppCompatActivity {
                 signup_password.setText("");
                 signup_cpassword.setText("");
 
-                Map<String,Object> note = new HashMap<>();
+                Map<String,Object> saved = new HashMap<>();
+                List<String> savedLocations = new ArrayList<>();        //Create empty array
+                saved.put("saved_location",savedLocations);
+                user_coll_ref.document(emailStr).collection("Saved_and_Reservation").document("Saved").set(saved);
 
+                Map<String,Object> note = new HashMap<>();
                 note.put("username", usernameStr);
                 note.put("password", passwordStr);
 
@@ -147,6 +153,7 @@ public class Signup_Activity extends AppCompatActivity {
                                 Toast.makeText(getApplicationContext(),"Account not made !",Toast.LENGTH_SHORT).show();
                             }
                         });
+
             }
         }
     };
