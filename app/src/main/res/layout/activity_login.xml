@@ -17,7 +17,8 @@
             android:background="?attr/colorPrimary"
             android:minHeight="?attr/actionBarSize"
             android:theme="?attr/actionBarTheme"
-            app:title=" Log in " />
+            app:title=" Log in "
+            android:layout_marginBottom="30dp"/>
 
         <LinearLayout
             android:layout_width="match_parent"

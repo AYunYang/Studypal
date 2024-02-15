@@ -19,7 +19,8 @@
             android:background="?attr/colorPrimary"
             android:minHeight="?attr/actionBarSize"
             android:theme="?attr/actionBarTheme"
-            app:title="Sign up"/>
+            app:title="Sign up"
+            android:layout_marginBottom="30dp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
