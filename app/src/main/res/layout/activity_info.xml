@@ -114,7 +114,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="17dp"
-                android:text="\u2022 You may check-in 15 minutes before your booking starts to secure it."
+                android:text="\u2022 You may check-in 10 minutes before your booking starts to secure it."
                 android:textColor="@android:color/black"
                 android:paddingTop="8dp"
                 android:paddingBottom="8dp"/>
@@ -123,7 +123,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="17dp"
-                android:text="\u2022 You must check-in within 10 minutes from the start of your booking or your booking will automatically be cancelled."
+                android:text="\u2022 You must check-in within 15 minutes from the start of your booking or your booking will automatically be cancelled."
                 android:textColor="@android:color/black"
                 android:paddingTop="8dp"
                 android:paddingBottom="8dp"/>

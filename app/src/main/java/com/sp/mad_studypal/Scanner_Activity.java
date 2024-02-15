@@ -116,7 +116,7 @@ public class Scanner_Activity extends AppCompatActivity {
                             String dbqrcode = (String) data.get("qrcode");
                             String confirmStatus =(String) data.get("confirm");
                             String[] splittimeslot = timeslot.split("-"); //eg 2pm-4pm -> 2pm and 4pm
-                            String startTimeString = splittimeslot[0].trim(); // eg. 2pm
+                            String startTimeString = splittimeslot[0].trim().toLowerCase(); // eg. 2pm
                             String endTimeString = splittimeslot[1].trim(); // eg. 4pm
 
                             // convert start time into LocalTime objects (if you want to do testing change the date using x:xx)
@@ -125,8 +125,8 @@ public class Scanner_Activity extends AppCompatActivity {
                             LocalTime currentTime = LocalTime.parse(currenttimeString, DateTimeFormatter.ofPattern("HH:mm"));
 
                             if (date.equals(adjustedDateString) &&
-                                    currentTime.isAfter(startTime.minusMinutes(15)) &&
-                                    currentTime.isBefore(startTime.plusMinutes(10)) &&
+                                    currentTime.isAfter(startTime.minusMinutes(10)) &&
+                                    currentTime.isBefore(startTime.plusMinutes(15)) &&
                                     qrcode.equals(dbqrcode)&&
                                     confirmStatus.equals("false")) {
                                     // Booking is in the current range

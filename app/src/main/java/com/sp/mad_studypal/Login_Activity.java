@@ -65,6 +65,7 @@ public class Login_Activity extends AppCompatActivity {
         button_switch_to_signup = findViewById(R.id.button_switch4_id);
         button_switch_to_signup.setOnClickListener(switch_to_signup);
 
+
     }
 
     private View.OnClickListener switch_to_signup = new View.OnClickListener() {     //Button, switch to signup page
@@ -168,8 +169,8 @@ public class Login_Activity extends AppCompatActivity {
 
                         String timeslot = (String) data.get("timeslot");
                         String[] splittimeslot = timeslot.split("-");
-                        String startTimeString = splittimeslot[0].trim();
-                        String endTimeString = splittimeslot[1].trim();
+                        String startTimeString = splittimeslot[0].trim().toLowerCase();
+                        String endTimeString = splittimeslot[1].trim().toLowerCase();
                         String complete_seat ="";
 
                         String  qrcode = (String) data.get("qrcode");
@@ -199,7 +200,7 @@ public class Login_Activity extends AppCompatActivity {
                                     break;
                         }
 
-                        else if(current_dated_changed.isEqual(date_changed)  && currentTime.isAfter(startTime.minusMinutes(15))){
+                        else if(current_dated_changed.isEqual(date_changed)  && currentTime.isAfter(startTime.plusMinutes(15))){
                             return_seats(location, studyarea, date, timeslot, complete_seat);
 
                             // Cancel booking from user account

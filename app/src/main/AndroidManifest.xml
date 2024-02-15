@@ -9,7 +9,6 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <application
@@ -29,7 +28,9 @@
         <activity
             android:name=".MapsActivity"
             android:exported="false"
-            android:label="@string/title_activity_maps" />
+            android:label="@string/title_activity_maps"
+            android:parentActivityName=".Search_Activity"
+            android:theme="@style/Theme.Design.Light.NoActionBar"/>
         <activity
             android:name=".ViewSeat_Activity"
             android:exported="false"
@@ -51,11 +52,6 @@
             android:theme="@style/Theme.Design.Light.NoActionBar" />
         <activity
             android:name=".Booking1_Activity"
-            android:exported="false"
-            android:parentActivityName=".Search_Activity"
-            android:theme="@style/Theme.Design.Light.NoActionBar" />
-        <activity
-            android:name=".Map_Activity"
             android:exported="false"
             android:parentActivityName=".Search_Activity"
             android:theme="@style/Theme.Design.Light.NoActionBar" />
