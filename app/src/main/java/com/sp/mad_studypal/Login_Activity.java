@@ -166,6 +166,7 @@ public class Login_Activity extends AppCompatActivity {
                         String location = (String) data.get("name");
                         String studyarea = (String) data.get("studyarea");
                         String date = (String) data.get("date");
+                        String confirmmstatus = (String) data.get("confirm");
 
                         String timeslot = (String) data.get("timeslot");
                         String[] splittimeslot = timeslot.split("-");
@@ -200,7 +201,7 @@ public class Login_Activity extends AppCompatActivity {
                                     break;
                         }
 
-                        else if(current_dated_changed.isEqual(date_changed)  && currentTime.isAfter(startTime.plusMinutes(15))){
+                        else if(current_dated_changed.isEqual(date_changed)  && currentTime.isAfter(startTime.plusMinutes(15)) && confirmmstatus.equals("false") ){
                             return_seats(location, studyarea, date, timeslot, complete_seat);
 
                             // Cancel booking from user account
