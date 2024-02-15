@@ -198,7 +198,7 @@ public class Login_Activity extends AppCompatActivity {
                                     .collection("Saved_and_Reservation")
                                     .document("Reservation")
                                     .collection("Bookings").document(bookingId).delete();
-                                    break;
+
                         }
 
                         else if(current_dated_changed.isEqual(date_changed)  && currentTime.isAfter(startTime.plusMinutes(15)) && confirmmstatus.equals("false") ){
@@ -210,7 +210,7 @@ public class Login_Activity extends AppCompatActivity {
                                     .collection("Saved_and_Reservation")
                                     .document("Reservation")
                                     .collection("Bookings").document(bookingId).delete();
-                                    break;
+
 
                         }
                         else if(current_dated_changed.isEqual(date_changed)  && currentTime.isAfter(endTime)){
@@ -220,7 +220,7 @@ public class Login_Activity extends AppCompatActivity {
                                     .collection("Saved_and_Reservation")
                                     .document("Reservation")
                                     .collection("Bookings").document(bookingId).delete();
-                            break;
+
 
                         }
                         else {
