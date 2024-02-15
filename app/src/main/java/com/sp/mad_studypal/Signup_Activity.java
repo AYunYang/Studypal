@@ -16,6 +16,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
@@ -125,35 +126,56 @@ public class Signup_Activity extends AppCompatActivity {
                 signup_password.setText("");
                 signup_cpassword.setText("");
 
-                Map<String,Object> saved = new HashMap<>();
-                List<String> savedLocations = new ArrayList<>();        //Create empty array
-                saved.put("saved_location",savedLocations);
-                user_coll_ref.document(emailStr).collection("Saved_and_Reservation").document("Saved").set(saved);
-
-                Map<String,Object> note = new HashMap<>();
-                note.put("username", usernameStr);
-                note.put("password", passwordStr);
-
-                user_coll_ref.document(emailStr).set(note)
-                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                user_coll_ref.document(emailStr).get()    //Pull document with same email from USER_ID collection
+                        .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                             @Override
-                            public void onSuccess(Void aVoid) {
-                                Toast.makeText(getApplicationContext(),"Account created ",Toast.LENGTH_SHORT).show();
+                            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                if (documentSnapshot.exists()) {                        //Account already exist
 
-                                holder object = new holder(getApplicationContext());
-                                object.saveEmail(emailStr);
+                                    signup_email_layout.setHelperText(" Account already exist ");
 
-                                Intent intent = new Intent(Signup_Activity.this, Search_Activity.class);
-                                startActivity(intent);
+                                }
+                                else {
+
+                                    Map<String,Object> saved = new HashMap<>();
+                                    List<String> savedLocations = new ArrayList<>();        //Create empty array
+                                    saved.put("saved_location",savedLocations);
+                                    user_coll_ref.document(emailStr).collection("Saved_and_Reservation").document("Saved").set(saved);
+
+                                    Map<String,Object> note = new HashMap<>();
+                                    note.put("username", usernameStr);
+                                    note.put("password", passwordStr);
+
+                                    user_coll_ref.document(emailStr).set(note)
+                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                @Override
+                                                public void onSuccess(Void aVoid) {
+                                                    Toast.makeText(getApplicationContext(),"Account created ",Toast.LENGTH_SHORT).show();
+
+                                                    holder object = new holder(getApplicationContext());
+                                                    object.saveEmail(emailStr);
+
+                                                    Intent intent = new Intent(Signup_Activity.this, Search_Activity.class);
+                                                    startActivity(intent);
+                                                }
+                                            })
+                                            .addOnFailureListener(new OnFailureListener() {
+                                                @Override
+                                                public void onFailure(@NonNull Exception e) {
+                                                    Toast.makeText(getApplicationContext(),"Account not made !",Toast.LENGTH_SHORT).show();
+                                                }
+                                            });
+
+
+                                }
                             }
                         })
-                        .addOnFailureListener(new OnFailureListener() {
+                        .addOnFailureListener(new OnFailureListener() { //Failure
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(getApplicationContext(),"Account not made !",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_SHORT).show();
                             }
                         });
-
             }
         }
     };
